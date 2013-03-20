@@ -4,9 +4,7 @@
     <notes>NeuroML 2 file containing a single synapse</notes>
 
 
-    <GranCellRothmanIf_AMPA id="AMPA" gbase="0.05 nS" erev="2.4 mV" tauRise="1 ms" tauDecay="20 ms">
-      <stpVarelaD1F0Mechanism depressionConstant="0.6" minimumDepression="0.1" depressionRecoveryTime="70 ms"/>
-    </GranCellRothmanIf_AMPA>
+    <GranCellRothmanIfAMPA id="AMPA" gbase="0.5 nS" erev="2.4 mV" tauRise="1 ms" tauDecay="20 ms" depressionConstant="0.6" minimumDepression="0.1" depressionRecoveryTime="70 ms"/>
 
     <ComponentType name="stpVarelaD1F0Mechanism"
       description="ComponentType for model of short term plasticity as described in Varela1996. One depression factor, no facilitation factors.">
@@ -29,15 +27,19 @@
 
 
 
-    <ComponentType name="GranCellRothmanIf_AMPA"
+    <ComponentType name="GranCellRothmanIfAMPA"
        extends="expTwoSynapse"
        description="AMPA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
 
         <Constant name="tsinceRate" dimension="none" value="1"/>
         <Constant name="longTime" dimension="time" value="1000s"/>
 
+        <Parameter name="depressionConstant" dimension="none" />
+	<Parameter name="minimumDepression" dimension="none"/>
+        <Parameter name="depressionRecoveryTime" dimension="time" />
+
         <Child name="notes" type="notes"/>
-	<Child name="stpMechanismVarela" type="stpVarelaD1F0Mechanism"/>
+	<!--<Child name="stpMechanismVarela" type="stpVarelaD1F0Mechanism"/>-->
 
         <Exposure name="tsince" dimension="time"/>
 	<Exposure name="depressionFactor" dimension="none"/>
@@ -53,9 +55,9 @@
             <DerivedVariable name="peakTime" dimension="time" value="(tauRise * tauDecay)/(tauDecay - tauRise) * ln(tauDecay / tauRise)" />
             <DerivedVariable name="factor" dimension="none" value="1 / (-exp(-peakTime / tauRise) + exp(-peakTime / tauDecay))" />
 
-	    <DerivedVariable name="depressionRecoveryTime" dimension="time" select="stpMechanismVarela/depressionRecoveryTime"/>
-	    <DerivedVariable name="depressionConstant" dimension="none" select="stpMechanismVarela/depressionConstant"/>
-	    <DerivedVariable name="minimumDepression" dimension="none" select="stpMechanismVarela/minimumDepression"/>
+	    <!-- <DerivedVariable name="depressionRecoveryTime" dimension="time" select="stpMechanismVarela/depressionRecoveryTime"/> -->
+	    <!-- <DerivedVariable name="depressionConstant" dimension="none" select="stpMechanismVarela/depressionConstant"/> -->
+	    <!-- <DerivedVariable name="minimumDepression" dimension="none" select="stpMechanismVarela/minimumDepression"/> -->
 
             <DerivedVariable name="g" dimension="conductance" exposure="g" value="gbase * (B - A)" />
             <DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
@@ -65,6 +67,7 @@
             <TimeDerivative variable="B" value="-B / tauDecay" />
 
 	    <TimeDerivative variable="tsince" value="tsinceRate" />
+	    <TimeDerivative variable="depressionFactor" value="0"/>
 
             <OnStart>
                 <StateAssignment variable="A" value="0" />
