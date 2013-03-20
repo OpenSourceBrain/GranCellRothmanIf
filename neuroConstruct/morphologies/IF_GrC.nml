@@ -71,7 +71,11 @@
                     </bio:parameter>
                 </bio:init_memb_potential></biophysics>
 
-            <connectivity/>
+            <connectivity>
+                <net:potential_syn_loc synapse_type="AMPA">
+                    <net:group>all</net:group>
+                </net:potential_syn_loc>
+            </connectivity>
 
         </cell>
     </cells>

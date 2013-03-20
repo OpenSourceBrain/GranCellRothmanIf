@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd" id="AMPA">
+
+    <notes>NeuroML 2 file containing a single synapse</notes>
+
+
+    <GranCellRothmanIf_AMPA id="AMPA" gbase="0.05 nS" erev="2.4 mV" tauRise="1 ms" tauDecay="20 ms">
+      <stpVarelaD1F0Mechanism depressionConstant="0.6" minimumDepression="0.1" depressionRecoveryTime="70 ms"/>
+    </GranCellRothmanIf_AMPA>
+
+    <ComponentType name="stpVarelaD1F0Mechanism"
+      description="ComponentType for model of short term plasticity as described in Varela1996. One depression factor, no facilitation factors.">
+
+        <Parameter name="depressionConstant" dimension="none" />
+	<Parameter name="minimumDepression" dimension="none"/>
+        <Parameter name="depressionRecoveryTime" dimension="time" />
+
+        <Exposure name="depressionConstant" dimension="none"/>
+	<Exposure name="minimumDepression" dimension="none"/>
+        <Exposure name="depressionRecoveryTime" dimension="time"/>
+
+        <Behavior>
+	  <DerivedVariable name="depressionConstant" dimension="none" exposure="depressionConstant" value="depressionConstant"/>
+	  <DerivedVariable name="minimumDepression" dimension="none" exposure="minimumDepression" value="minimumDepression"/>
+	  <DerivedVariable name="depressionRecoveryTime" dimension="time" exposure="depressionRecoveryTime" value="depressionRecoveryTime"/>
+        </Behavior>
+
+    </ComponentType>
+
+
+
+    <ComponentType name="GranCellRothmanIf_AMPA"
+       extends="expTwoSynapse"
+       description="AMPA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
+
+        <Constant name="tsinceRate" dimension="none" value="1"/>
+        <Constant name="longTime" dimension="time" value="1000s"/>
+
+        <Child name="notes" type="notes"/>
+	<Child name="stpMechanismVarela" type="stpVarelaD1F0Mechanism"/>
+
+        <Exposure name="tsince" dimension="time"/>
+	<Exposure name="depressionFactor" dimension="none"/>
+
+        <Behavior>
+            <StateVariable name="A" dimension="none"/>
+            <StateVariable name="B" dimension="none"/>
+
+	    <StateVariable name="depressionFactor" dimension="none" exposure="depressionFactor"/>
+
+	    <StateVariable name="tsince" dimension="time" exposure="tsince"/>
+
+            <DerivedVariable name="peakTime" dimension="time" value="(tauRise * tauDecay)/(tauDecay - tauRise) * ln(tauDecay / tauRise)" />
+            <DerivedVariable name="factor" dimension="none" value="1 / (-exp(-peakTime / tauRise) + exp(-peakTime / tauDecay))" />
+
+	    <DerivedVariable name="depressionRecoveryTime" dimension="time" select="stpMechanismVarela/depressionRecoveryTime"/>
+	    <DerivedVariable name="depressionConstant" dimension="none" select="stpMechanismVarela/depressionConstant"/>
+	    <DerivedVariable name="minimumDepression" dimension="none" select="stpMechanismVarela/minimumDepression"/>
+
+            <DerivedVariable name="g" dimension="conductance" exposure="g" value="gbase * (B - A)" />
+            <DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
+
+
+            <TimeDerivative variable="A" value="-A / tauRise" />
+            <TimeDerivative variable="B" value="-B / tauDecay" />
+
+	    <TimeDerivative variable="tsince" value="tsinceRate" />
+
+            <OnStart>
+                <StateAssignment variable="A" value="0" />
+                <StateAssignment variable="B" value="0" />
+
+		<StateAssignment variable="depressionFactor" value="1"/>
+		<StateAssignment variable="tsince" value="longTime"/>
+            </OnStart>
+
+            <OnEvent port="in">
+                <StateAssignment variable="A" value="A + factor" />
+                <StateAssignment variable="B" value="B + factor" />
+
+		<StateAssignment variable="depressionFactor" value="depressionConstant * (1 + (depressionFactor - 1) * exp(-tsince / depressionRecoveryTime))"/>
+		<StateAssignment variable="tsince" value="0"/>
+            </OnEvent>
+
+	    <OnCondition test="depressionFactor .lt. minimumDepression">
+	      <StateAssignment variable="depressionFactor" value="minimumDepression"/>
+	    </OnCondition>
+
+        </Behavior>
+    </ComponentType>
+
+
+
+</neuroml>
