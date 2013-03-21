@@ -4,92 +4,86 @@
     <notes>NeuroML 2 file containing a single synapse</notes>
 
 
-    <GranCellRothmanIfAMPA id="AMPA" gbase="0.5 nS" erev="2.4 mV" tauRise="1 ms" tauDecay="20 ms" depressionConstant="0.6" minimumDepression="0.1" depressionRecoveryTime="70 ms"/>
-
-    <ComponentType name="stpVarelaD1F0Mechanism"
-      description="ComponentType for model of short term plasticity as described in Varela1996. One depression factor, no facilitation factors.">
-
-        <Parameter name="depressionConstant" dimension="none" />
-	<Parameter name="minimumDepression" dimension="none"/>
-        <Parameter name="depressionRecoveryTime" dimension="time" />
-
-        <Exposure name="depressionConstant" dimension="none"/>
-	<Exposure name="minimumDepression" dimension="none"/>
-        <Exposure name="depressionRecoveryTime" dimension="time"/>
-
-        <Behavior>
-	  <DerivedVariable name="depressionConstant" dimension="none" exposure="depressionConstant" value="depressionConstant"/>
-	  <DerivedVariable name="minimumDepression" dimension="none" exposure="minimumDepression" value="minimumDepression"/>
-	  <DerivedVariable name="depressionRecoveryTime" dimension="time" exposure="depressionRecoveryTime" value="depressionRecoveryTime"/>
-        </Behavior>
-
-    </ComponentType>
-
-
+    <GranCellRothmanIfAMPA id="AMPA" erev="0 mV" amp1="0.423 nS" amp2="0.0780 nS" amp3="0.0145 nS" tauRise="0.257 ms" tauDecay1="0.2571 ms" tauDecay2="2.17 ms" tauDecay3="21.6 ms" depressionConstant="0.6" minimumDepression="0.1" depressionRecoveryTime="50 ms"/>
+      <!--<fourExponentialVarelaSTPSynapse erev="0 mV" amp1="0.0795 nS" amp2="0.106 nS" amp3="0.00765 nS" tauRise="0.802 ms" tauDecay1="0.8021 ms" tauDecay2="7.43 ms" tauDecay3="35.3 ms" depressionConstant="0.95" minimumDepression="0.6" depressionRecoveryTime="50 ms"/>-->
 
     <ComponentType name="GranCellRothmanIfAMPA"
-       extends="expTwoSynapse"
+       extends="baseSynapse"
        description="AMPA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
+      <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
+      <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
 
-        <Constant name="tsinceRate" dimension="none" value="1"/>
-        <Constant name="longTime" dimension="time" value="1000s"/>
+      <!-- waveform shape parameters -->
+      <Parameter name="amp1" dimension="conductance"/>
+      <Parameter name="amp2" dimension="conductance"/>
+      <Parameter name="amp3" dimension="conductance"/>
+      <Parameter name="tauRise" dimension="time"/>
+      <Parameter name="tauDecay1" dimension="time"/>
+      <Parameter name="tauDecay2" dimension="time"/>
+      <Parameter name="tauDecay3" dimension="time"/>
+      <!-- short term plasticity parameters -->
+      <Parameter name="depressionConstant" dimension="none" />
+      <Parameter name="minimumDepression" dimension="none"/>
+      <Parameter name="depressionRecoveryTime" dimension="time" />
 
-        <Parameter name="depressionConstant" dimension="none" />
-	<Parameter name="minimumDepression" dimension="none"/>
-        <Parameter name="depressionRecoveryTime" dimension="time" />
+      <!-- <Exposure name="depressionFactor" dimension="none"/> -->
 
-        <Child name="notes" type="notes"/>
-	<!--<Child name="stpMechanismVarela" type="stpVarelaD1F0Mechanism"/>-->
+      <Behavior>
+	<StateVariable name="A1" dimension="none"/>
+	<StateVariable name="A2" dimension="none"/>
+	<StateVariable name="A3" dimension="none"/>
+	<StateVariable name="B1" dimension="none"/>
+	<StateVariable name="B2" dimension="none"/>
+	<StateVariable name="B3" dimension="none"/>
 
-        <Exposure name="tsince" dimension="time"/>
-	<Exposure name="depressionFactor" dimension="none"/>
+	<StateVariable name="depressionFactor" dimension="none"/>
 
-        <Behavior>
-            <StateVariable name="A" dimension="none"/>
-            <StateVariable name="B" dimension="none"/>
+	<DerivedVariable name="peakTime1" dimension="time" value="(tauRise * tauDecay1)/(tauDecay1 - tauRise) * ln(tauDecay1 / tauRise)" />
+	<DerivedVariable name="peakTime2" dimension="time" value="(tauRise * tauDecay2)/(tauDecay2 - tauRise) * ln(tauDecay2 / tauRise)" />
+	<DerivedVariable name="peakTime3" dimension="time" value="(tauRise * tauDecay3)/(tauDecay3 - tauRise) * ln(tauDecay3 / tauRise)" />
+	<DerivedVariable name="factor1" dimension="none" value="1 / (-exp(-peakTime1 / tauRise) + exp(-peakTime1 / tauDecay1))" />
+	<DerivedVariable name="factor2" dimension="none" value="1 / (-exp(-peakTime2 / tauRise) + exp(-peakTime2 / tauDecay2))" />
+	<DerivedVariable name="factor3" dimension="none" value="1 / (-exp(-peakTime3 / tauRise) + exp(-peakTime3 / tauDecay3))" />
 
-	    <StateVariable name="depressionFactor" dimension="none" exposure="depressionFactor"/>
-
-	    <StateVariable name="tsince" dimension="time" exposure="tsince"/>
-
-            <DerivedVariable name="peakTime" dimension="time" value="(tauRise * tauDecay)/(tauDecay - tauRise) * ln(tauDecay / tauRise)" />
-            <DerivedVariable name="factor" dimension="none" value="1 / (-exp(-peakTime / tauRise) + exp(-peakTime / tauDecay))" />
-
-	    <!-- <DerivedVariable name="depressionRecoveryTime" dimension="time" select="stpMechanismVarela/depressionRecoveryTime"/> -->
-	    <!-- <DerivedVariable name="depressionConstant" dimension="none" select="stpMechanismVarela/depressionConstant"/> -->
-	    <!-- <DerivedVariable name="minimumDepression" dimension="none" select="stpMechanismVarela/minimumDepression"/> -->
-
-            <DerivedVariable name="g" dimension="conductance" exposure="g" value="gbase * (B - A)" />
-            <DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
+	<DerivedVariable name="g" dimension="conductance" exposure="g" value="amp1 * (B1 - A1) + amp2 * (B2 - A2) + amp3 * (B3 - A3)" />
+	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
 
 
-            <TimeDerivative variable="A" value="-A / tauRise" />
-            <TimeDerivative variable="B" value="-B / tauDecay" />
+	<TimeDerivative variable="A1" value="-A1 / tauRise" />
+	<TimeDerivative variable="A2" value="-A2 / tauRise" />
+	<TimeDerivative variable="A3" value="-A3 / tauRise" />
+	<TimeDerivative variable="B1" value="-B1 / tauDecay1" />
+	<TimeDerivative variable="B2" value="-B2 / tauDecay2" />
+	<TimeDerivative variable="B3" value="-B3 / tauDecay3" />
 
-	    <TimeDerivative variable="tsince" value="tsinceRate" />
-	    <TimeDerivative variable="depressionFactor" value="0"/>
+	<TimeDerivative variable="depressionFactor" value="(1 - depressionFactor) / depressionRecoveryTime"/>
 
-            <OnStart>
-                <StateAssignment variable="A" value="0" />
-                <StateAssignment variable="B" value="0" />
+	<OnStart>
+	  <StateAssignment variable="A1" value="0" />
+	  <StateAssignment variable="A2" value="0" />
+	  <StateAssignment variable="A3" value="0" />
+	  <StateAssignment variable="B1" value="0" />
+	  <StateAssignment variable="B2" value="0" />
+	  <StateAssignment variable="B3" value="0" />
+	  <StateAssignment variable="depressionFactor" value="1"/>
+	</OnStart>
 
-		<StateAssignment variable="depressionFactor" value="1"/>
-		<StateAssignment variable="tsince" value="longTime"/>
-            </OnStart>
+	<OnEvent port="in">
+	  <StateAssignment variable="A1" value="A1 + depressionFactor * factor1" />
+	  <StateAssignment variable="A2" value="A2 + depressionFactor * factor2" />
+	  <StateAssignment variable="A3" value="A3 + depressionFactor * factor3" />
+	  <StateAssignment variable="B1" value="B1 + depressionFactor * factor1" />
+	  <StateAssignment variable="B2" value="B2 + depressionFactor * factor2" />
+	  <StateAssignment variable="B3" value="B3 + depressionFactor * factor3" />
 
-            <OnEvent port="in">
-                <StateAssignment variable="A" value="A + factor" />
-                <StateAssignment variable="B" value="B + factor" />
+	  <StateAssignment variable="depressionFactor" value="depressionConstant * depressionFactor"/>
+	</OnEvent>
 
-		<StateAssignment variable="depressionFactor" value="depressionConstant * (1 + (depressionFactor - 1) * exp(-tsince / depressionRecoveryTime))"/>
-		<StateAssignment variable="tsince" value="0"/>
-            </OnEvent>
+	<OnCondition test="depressionFactor .lt. minimumDepression">
+	  <StateAssignment variable="depressionFactor" value="minimumDepression"/>
+	</OnCondition>
 
-	    <OnCondition test="depressionFactor .lt. minimumDepression">
-	      <StateAssignment variable="depressionFactor" value="minimumDepression"/>
-	    </OnCondition>
-
-        </Behavior>
+      </Behavior>
     </ComponentType>
 
 
