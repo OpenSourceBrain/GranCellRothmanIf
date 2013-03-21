@@ -62,7 +62,7 @@
 
 
       <Behavior>
-	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + directAmp3 * (directB3 - directA3)" />
+	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + directAmp3 * (directB3 - directA3) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>
 	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
 
 	<!-- DIRECT -->

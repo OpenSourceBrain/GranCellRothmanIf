@@ -2,9 +2,9 @@
 <neuroml xmlns="http://morphml.org/neuroml/schema" xmlns:meta="http://morphml.org/metadata/schema" xmlns:mml="http://morphml.org/morphml/schema" xmlns:bio="http://morphml.org/biophysics/schema" xmlns:cml="http://morphml.org/channelml/schema" xmlns:net="http://morphml.org/networkml/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://morphml.org/neuroml/schema  http://neuroml.svn.sourceforge.net/viewvc/neuroml/trunk/web/NeuroMLFiles/Schemata/v1.8.1/Level3/NeuroML_Level3_v1.8.1.xsd" lengthUnits="micron">
 
     <cells>
-        <cell name="IF_GrC">
+        <cell name="ExcCell">
 
-            <meta:notes>A single segment/compartment cell with a passive conductance and an integrate and fire mechanism which resets the membrane potential on reaching a threshold</meta:notes>
+            <meta:notes>Dummy relay for random spike trains. Don't forget to use FastSynInput together with a large leak conductance and a high outbound synaptic threshold, to ensure that no spikes go missing due to EPSC summation.</meta:notes>
 
             <mml:segments>
 
@@ -29,26 +29,11 @@
 
             <biophysics units="Physiological Units">
 
-                <bio:mechanism name="IntFire" type="Channel Mechanism">
-                    <bio:parameter name="gmax" value="0.0">
-                        <bio:group>all</bio:group>
-                    </bio:parameter>
-                </bio:mechanism>
-
                 <bio:mechanism name="LeakConductance" type="Channel Mechanism" passive_conductance="true">
                     <bio:parameter name="e" value="-75.0">
                         <bio:group>all</bio:group>
                     </bio:parameter>
-                    <bio:parameter name="gmax" value="0.3183192">
-                        <bio:group>all</bio:group>
-                    </bio:parameter>
-                </bio:mechanism>
-
-                <bio:mechanism name="TonicGABA" type="Channel Mechanism" passive_conductance="true">
-                    <bio:parameter name="e" value="-75.0">
-                        <bio:group>all</bio:group>
-                    </bio:parameter>
-                    <bio:parameter name="gmax" value="0.1394194">
+                    <bio:parameter name="gmax" value="318.3092">
                         <bio:group>all</bio:group>
                     </bio:parameter>
                 </bio:mechanism>
@@ -60,19 +45,23 @@
                 </bio:spec_capacitance>
 
                 <bio:spec_axial_resistance>
-                    <bio:parameter value="0.03">
+                    <bio:parameter value="1.0E-4">
                         <bio:group>all</bio:group>
                     </bio:parameter>
                 </bio:spec_axial_resistance>
 
                 <bio:init_memb_potential>
-                    <bio:parameter value="-75.0">
+                    <bio:parameter value="-65.0">
                         <bio:group>all</bio:group>
                     </bio:parameter>
                 </bio:init_memb_potential></biophysics>
 
             <connectivity>
                 <net:potential_syn_loc synapse_type="AMPA">
+                    <net:group>all</net:group>
+                </net:potential_syn_loc>
+            
+                <net:potential_syn_loc synapse_type="FastSynInput">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
             

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd" id="NMDA">
+
+    <notes>NeuroML 2 file containing a single synapse</notes>
+
+    <GranCellRothmanIfNMDA id="NMDA"
+			   erev="0 mV"
+			   directAmp1="0.345 nS"
+			   directAmp2="0 nS"
+			   directAmp3="0 nS"
+			   directTauRise="0.714 ms"
+			   directTauDecay1="20.2 ms"
+			   directTauDecay2="1 ms"
+			   directTauDecay3="1 ms"
+			   directDepressionConstant="0.9"
+			   directMinimumDepression="0.1"
+			   directDepressionRecoveryTime="70 ms"
+			   directFacilitationConstant="1.7"
+			   directMaximumFacilitation="3.4"
+			   directFacilitationRecoveryTime="3.5 ms">
+
+      <voltageConcDepBlock species="mg"
+			   blockConcentration="1 mM"
+			   scalingConc="1.4367 mM"
+			   scalingVolt="26.738 mV"/>
+      <!-- scalingConc=1/0.696 scalingVolt=1/0.0374-->
+    </GranCellRothmanIfNMDA>
+
+    <ComponentType name="GranCellRothmanIfNMDA"
+       extends="baseSynapse"
+       description="NMDA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
+      <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
+      <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
+
+      <Child name="voltageConcDepBlock" type="voltageConcDepBlock"/>
+
+      <!-- DIRECT -->
+      <!-- waveform shape parameters -->
+      <Parameter name="directAmp1" dimension="conductance"/>
+      <Parameter name="directAmp2" dimension="conductance"/>
+      <Parameter name="directAmp3" dimension="conductance"/>
+      <Parameter name="directTauRise" dimension="time"/>
+      <Parameter name="directTauDecay1" dimension="time"/>
+      <Parameter name="directTauDecay2" dimension="time"/>
+      <Parameter name="directTauDecay3" dimension="time"/>
+      <!-- short term plasticity parameters -->
+      <Parameter name="directDepressionConstant" dimension="none" />
+      <Parameter name="directMinimumDepression" dimension="none"/>
+      <Parameter name="directDepressionRecoveryTime" dimension="time" />
+      <Parameter name="directFacilitationConstant" dimension="none"/>
+      <Parameter name="directMaximumFacilitation" dimension="none"/>
+      <Parameter name="directFacilitationRecoveryTime" dimension="time"/>
+
+      <Behavior>
+	<DerivedVariable name="block" dimension="none" select="voltageConcDepBlock/scaling" />
+	<DerivedVariable name="g" dimension="conductance" exposure="g" value="block * (directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + directAmp3 * (directB3 - directA3))" />
+	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
+
+	<!-- DIRECT -->
+	<StateVariable name="directA1" dimension="none"/>
+	<StateVariable name="directA2" dimension="none"/>
+	<StateVariable name="directA3" dimension="none"/>
+	<StateVariable name="directB1" dimension="none"/>
+	<StateVariable name="directB2" dimension="none"/>
+	<StateVariable name="directB3" dimension="none"/>
+
+	<StateVariable name="directDepressionFactor" dimension="none"/>
+	<StateVariable name="directFacilitationFactor" dimension="none"/>
+
+	<DerivedVariable name="directPeakTime1" dimension="time" value="(directTauRise * directTauDecay1)/(directTauDecay1 - directTauRise) * ln(directTauDecay1 / directTauRise)" />
+	<DerivedVariable name="directPeakTime2" dimension="time" value="(directTauRise * directTauDecay2)/(directTauDecay2 - directTauRise) * ln(directTauDecay2 / directTauRise)" />
+	<DerivedVariable name="directPeakTime3" dimension="time" value="(directTauRise * directTauDecay3)/(directTauDecay3 - directTauRise) * ln(directTauDecay3 / directTauRise)" />
+	<DerivedVariable name="directFactor1" dimension="none" value="1 / (-exp(-directPeakTime1 / directTauRise) + exp(-directPeakTime1 / directTauDecay1))" />
+	<DerivedVariable name="directFactor2" dimension="none" value="1 / (-exp(-directPeakTime2 / directTauRise) + exp(-directPeakTime2 / directTauDecay2))" />
+	<DerivedVariable name="directFactor3" dimension="none" value="1 / (-exp(-directPeakTime3 / directTauRise) + exp(-directPeakTime3 / directTauDecay3))" />
+
+	<TimeDerivative variable="directA1" value="-directA1 / directTauRise" />
+	<TimeDerivative variable="directA2" value="-directA2 / directTauRise" />
+	<TimeDerivative variable="directA3" value="-directA3 / directTauRise" />
+	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
+	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
+	<TimeDerivative variable="directB3" value="-directB3 / directTauDecay3" />
+
+	<TimeDerivative variable="directDepressionFactor" value="(1 - directDepressionFactor) / directDepressionRecoveryTime"/>
+	<TimeDerivative variable="directFacilitationFactor" value="(1 - directFacilitationFactor) / directFacilitationRecoveryTime"/>
+
+	<OnStart>
+	  <!-- DIRECT -->
+	  <StateAssignment variable="directA1" value="0" />
+	  <StateAssignment variable="directA2" value="0" />
+	  <StateAssignment variable="directA3" value="0" />
+	  <StateAssignment variable="directB1" value="0" />
+	  <StateAssignment variable="directB2" value="0" />
+	  <StateAssignment variable="directB3" value="0" />
+	  <StateAssignment variable="directDepressionFactor" value="1"/>
+	  <StateAssignment variable="directFacilitationFactor" value="1"/>
+	</OnStart>
+
+	<OnEvent port="in">
+	  <!-- DIRECT -->
+	  <StateAssignment variable="directA1" value="directA1 + directDepressionFactor * directFactor1" />
+	  <StateAssignment variable="directA2" value="directA2 + directDepressionFactor * directFactor2" />
+	  <StateAssignment variable="directA3" value="directA3 + directDepressionFactor * directFactor3" />
+	  <StateAssignment variable="directB1" value="directB1 + directDepressionFactor * directFactor1" />
+	  <StateAssignment variable="directB2" value="directB2 + directDepressionFactor * directFactor2" />
+	  <StateAssignment variable="directB3" value="directB3 + directDepressionFactor * directFactor3" />
+	  <StateAssignment variable="directDepressionFactor" value="directDepressionConstant * directDepressionFactor"/>
+	  <StateAssignment variable="directFacilitationFactor" value="directFacilitationConstant * directFacilitationFactor"/>
+	</OnEvent>
+
+	<OnCondition test="directDepressionFactor .lt. directMinimumDepression">
+	  <StateAssignment variable="directDepressionFactor" value="directMinimumDepression"/>
+	</OnCondition>
+
+	<OnCondition test="directFacilitationFactor .gt. directMaximumFacilitation">
+	  <StateAssignment variable="directFacilitationFactor" value="directMaximumFacilitation"/>
+	</OnCondition>
+
+      </Behavior>
+    </ComponentType>
+
+
+
+</neuroml>
