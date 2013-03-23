@@ -17,20 +17,19 @@ from ucl.physiol.neuroconstruct.nmodleditor.processes import ProcessManager
 from ucl.physiol.neuroconstruct.cell.utils import CellTopologyHelper
 from ucl.physiol.neuroconstruct.utils import NumberGenerator
 
+sim_config_name = sys.argv[1]
+input_rate = float(sys.argv[2])
+
 timestamp = str(time.time())
 pm = ProjectManager(None, None)
 project_path = '../GranCellRothmanIF.ncx'
 project_file = File(project_path)
 project = pm.loadProject(project_file)
 
-sim_config_name = 'synapse_test'
-
 sim_config = project.simConfigInfo.getSimConfig(sim_config_name)
-sim_duration = 100000
+sim_duration = 10000
 sim_config.setSimDuration(sim_duration)
 project.neuronSettings.setNoConsole()
-
-input_rate = float(sys.argv[1])
 
 # generate
 nC_seed = 1234

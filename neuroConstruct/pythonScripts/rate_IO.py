@@ -12,7 +12,7 @@ stim_rate_range = np.arange(15, 45, 15)
 firing_rates = np.zeros(shape=stim_rate_range.shape)
 
 for k, stim_rate in enumerate(stim_rate_range):
-    proc = subprocess.Popen(['nC.sh', '-python', 'rate_IO_simulate.py', str(stim_rate)], stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['nC.sh', '-python', 'rate_IO_simulate.py', 'rate_IO', str(stim_rate)], stdout=subprocess.PIPE)
     proc_output = proc.communicate()[0]
     output_firing_rate = float(proc_output.rpartition('Output firing rate is ')[-1])
     firing_rates[k] = output_firing_rate
