@@ -19,11 +19,14 @@
 			   directMaximumFacilitation="3.4"
 			   directFacilitationRecoveryTime="3.5 ms">
 
-      <voltageConcDepBlock species="mg"
-			   blockConcentration="1 mM"
-			   scalingConc="1.4367 mM"
-			   scalingVolt="26.738 mV"/>
-      <!-- scalingConc=1/0.696 scalingVolt=1/0.0374-->
+      <RothmanBlock species="mg"
+		    z="2"
+		    T="35 degC"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
     </GranCellRothmanIfNMDA>
 
 </neuroml>

@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd" id="GranCellRothmanIfNMDA">
 
+  <Dimension name="per_temperature" k="-1"/>
+  <Unit symbol="per_K" dimension="per_temperature" powTen="0"/>
+
+  <ComponentType name="RothmanBlock"
+    extends="baseBlock"
+    description="Synaptic blockage model used for the NMDA-mediated synapse in Schwartz2012.">
+    <Text name="species"/>
+
+    <Requirement name="v" dimension="voltage"/>
+
+    <Constant name="faradayConstant" dimension="charge_per_mole" value="96485.3365 C_per_mol"/>
+    <Constant name="idealGasConstant" dimension="idealGasConstantDims" value="8.3144621 J_per_K_per_mol"/>
+
+    <Parameter name="z" dimension="none"/>
+    <Parameter name="T" dimension="temperature"/>
+    <Parameter name="blockConcentration" dimension="concentration"/>
+    <Parameter name="deltaBind" dimension="none"/>
+    <Parameter name="deltaPerm" dimension="none"/>
+    <Parameter name="C1" dimension="concentration"/>
+    <Parameter name="C2" dimension="concentration"/>
+
+    <Behavior>
+      <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
+      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(deltaBind * theta * v))"/>
+    </Behavior>
+  </ComponentType>
+
+
     <ComponentType name="GranCellRothmanIfNMDA"
        extends="baseSynapse"
        description="NMDA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
 
-      <Child name="voltageConcDepBlock" type="voltageConcDepBlock"/>
+      <Child name="RothmanBlock" type="RothmanBlock"/>
 
       <!-- DIRECT -->
       <!-- waveform shape parameters -->
@@ -25,7 +53,7 @@
       <Parameter name="directFacilitationRecoveryTime" dimension="time"/>
 
       <Behavior>
-	<DerivedVariable name="block" dimension="none" select="voltageConcDepBlock/scaling" />
+	<DerivedVariable name="block" dimension="none" select="RothmanBlock/scaling" />
 	<DerivedVariable name="g" dimension="conductance" exposure="g" value="block * (directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2))" />
 	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
 
