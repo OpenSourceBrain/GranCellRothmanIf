@@ -21,7 +21,7 @@
 
       <RothmanBlock species="mg"
 		    z="2"
-		    T="35 degC"
+		    T="308.15 K"
 		    blockConcentration="1 mM"
 		    deltaBind="0.35"
 		    deltaPerm="0.53"
