@@ -28,7 +28,7 @@ project_file = File(project_path)
 project = pm.loadProject(project_file)
 
 sim_config = project.simConfigInfo.getSimConfig(sim_config_name)
-sim_duration = 10000
+sim_duration = 100000
 sim_config.setSimDuration(sim_duration)
 project.neuronSettings.setNoConsole()
 
@@ -65,7 +65,10 @@ if compile_success:
 shutil.copyfile('../NMDA_hand_corrected.mod', '../generatedNEURON/NMDA.mod')
 
 # simulate
-subprocess.call('cd ../generatedNEURON && nrnivmodl && ./runsim.sh', shell=True)
+subprocess.call('cd ../generatedNEURON && nrnivmodl && ./runsim.sh',
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                shell=True)
 
 # calculate output firing rate
 out_file_path = sim_path + '/GrCs_156_0.SPIKE_min40.spike'
