@@ -7,20 +7,20 @@
 
     <GranCellRothmanIfAMPA id="AMPA"
 			   erev="0 mV"
-			   directAmp1="0.423 nS"
-			   directAmp2="0.0780 nS"
-			   directTauRise="0.257 ms"
-			   directTauDecay1="0.2571 ms"
-			   directTauDecay2="2.17 ms"
-			   spilloverAmp1="0.0795 nS"
-			   spilloverAmp2="0.106 nS"
-			   spilloverAmp3="0.00765 nS"
-			   spilloverTauRise="0.802 ms"
-			   spilloverTauDecay1="0.8021 ms"
-			   spilloverTauDecay2="7.43 ms"
-			   spilloverTauDecay3="35.3 ms">
-      <stpMechanism name="directSTPmechanism" initReleaseProb="0.5" tauFac="0 ms" tauRec="120 ms" />
-      <stpMechanism name="spilloverSTPmechanism" initReleaseProb="0.2" tauFac="0 ms" tauRec="120 ms" />
+			   directAmp1="4.492 nS"
+			   directAmp2="0.3659 nS"
+			   directTauRise="0.3274 ms"
+			   directTauDecay1="0.3351 ms"
+			   directTauDecay2="1.651 ms"
+			   spilloverAmp1="0.3 nS"
+			   spilloverAmp2="0.3376 nS"
+			   spilloverAmp3="0.153 nS"
+			   spilloverTauRise="0.5548 ms"
+			   spilloverTauDecay1="0.4 ms"
+			   spilloverTauDecay2="4.899 ms"
+			   spilloverTauDecay3="43.10 ms">
+      <stpMechanism name="directSTPmechanism" initReleaseProb="0.1249" tauFac="0 ms" tauRec="131 ms" />
+      <stpMechanism name="spilloverSTPmechanism" initReleaseProb="0.2792" tauFac="0 ms" tauRec="14.85 ms" />
     </GranCellRothmanIfAMPA>
 
 
