@@ -7,18 +7,15 @@
 
     <GranCellRothmanIfNMDA id="NMDA"
 			   erev="0 mV"
-			   directAmp1="0.2129 nS"
-			   directAmp2="0.1616 nS"
-			   directTauRise="1.035 ms"
-			   directTauDecay1="8.118 ms"
-			   directTauDecay2="37.05 ms"
-			   directDepressionConstant="0.9"
-			   directMinimumDepression="0.1"
-			   directDepressionRecoveryTime="70 ms"
-			   directFacilitationConstant="1.7"
-			   directMaximumFacilitation="3.4"
-			   directFacilitationRecoveryTime="3.5 ms">
-
+			   directAmp1="3.683 nS"
+			   directAmp2="0.5730 nS"
+			   directTauRise="0.8647 ms"
+			   directTauDecay1="13.52 ms"
+			   directTauDecay2="121.9 ms">
+      <stpMechanism name="directSTPmechanism"
+		    initReleaseProb="0.03220"
+		    tauFac="6.394 ms"
+		    tauRec="236.1 ms" />
       <RothmanBlock species="mg"
 		    z="2"
 		    T="308.15 K"
