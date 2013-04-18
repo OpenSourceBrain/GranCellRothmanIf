@@ -3,23 +3,24 @@
 
     <ComponentType name="GranCellRothmanIfAMPA"
        extends="baseSynapse"
-       description="AMPA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
+       description="AMPA receptor mediated synapse with short term plasticity, modeled on data published in Rothman2009.">
+      <Constant name="tsinceRate" dimension="none" value="1"/>
+      <Constant name="longTime" dimension="time" value="1000s"/>
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
+      <Exposure name="tsince" dimension="time"/>
 
       <!-- DIRECT -->
       <!-- waveform shape parameters -->
       <Parameter name="directAmp1" dimension="conductance"/>
       <Parameter name="directAmp2" dimension="conductance"/>
-      <Parameter name="directAmp3" dimension="conductance"/>
       <Parameter name="directTauRise" dimension="time"/>
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
-      <Parameter name="directTauDecay3" dimension="time"/>
-      <!-- short term plasticity parameters -->
-      <Parameter name="directDepressionConstant" dimension="none" />
-      <Parameter name="directMinimumDepression" dimension="none"/>
-      <Parameter name="directDepressionRecoveryTime" dimension="time" />
+
+      <Child name="directSTPMechanism" type="stpMechanism"/>
+      <Exposure name="directR" dimension="none"/>
+      <Exposure name="directU" dimension="none"/>
 
       <!-- SPILLOVER -->
       <!-- waveform shape parameters -->
@@ -35,36 +36,36 @@
       <Parameter name="spilloverMinimumDepression" dimension="none"/>
       <Parameter name="spilloverDepressionRecoveryTime" dimension="time" />
 
-
-      <Behavior>
-	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + directAmp3 * (directB3 - directA3) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>
+      <Dynamics>
+	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>
 	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
+	<StateVariable name="tsince" dimension="time" exposure="tsince"/>
+	<TimeDerivative variable="tsince" value="tsinceRate" />
 
 	<!-- DIRECT -->
 	<StateVariable name="directA1" dimension="none"/>
 	<StateVariable name="directA2" dimension="none"/>
-	<StateVariable name="directA3" dimension="none"/>
 	<StateVariable name="directB1" dimension="none"/>
 	<StateVariable name="directB2" dimension="none"/>
-	<StateVariable name="directB3" dimension="none"/>
 
-	<StateVariable name="directDepressionFactor" dimension="none"/>
+	<StateVariable name="directR" dimension="none" exposure="directR"/>
+	<StateVariable name="directU" dimension="none" exposure="directU"/>
+
 
 	<DerivedVariable name="directPeakTime1" dimension="time" value="(directTauRise * directTauDecay1)/(directTauDecay1 - directTauRise) * ln(directTauDecay1 / directTauRise)" />
 	<DerivedVariable name="directPeakTime2" dimension="time" value="(directTauRise * directTauDecay2)/(directTauDecay2 - directTauRise) * ln(directTauDecay2 / directTauRise)" />
-	<DerivedVariable name="directPeakTime3" dimension="time" value="(directTauRise * directTauDecay3)/(directTauDecay3 - directTauRise) * ln(directTauDecay3 / directTauRise)" />
 	<DerivedVariable name="directFactor1" dimension="none" value="1 / (-exp(-directPeakTime1 / directTauRise) + exp(-directPeakTime1 / directTauDecay1))" />
 	<DerivedVariable name="directFactor2" dimension="none" value="1 / (-exp(-directPeakTime2 / directTauRise) + exp(-directPeakTime2 / directTauDecay2))" />
-	<DerivedVariable name="directFactor3" dimension="none" value="1 / (-exp(-directPeakTime3 / directTauRise) + exp(-directPeakTime3 / directTauDecay3))" />
 
 	<TimeDerivative variable="directA1" value="-directA1 / directTauRise" />
 	<TimeDerivative variable="directA2" value="-directA2 / directTauRise" />
-	<TimeDerivative variable="directA3" value="-directA3 / directTauRise" />
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
-	<TimeDerivative variable="directB3" value="-directB3 / directTauDecay3" />
 
-	<TimeDerivative variable="directDepressionFactor" value="(1 - directDepressionFactor) / directDepressionRecoveryTime"/>
+	<DerivedVariable name="directInitReleaseProb" dimension="none" select="directSTPMechanism/initReleaseProb" />
+	<DerivedVariable name="directTauRec" dimension="time" select="directSTPMechanism/tauRec" />
+	<DerivedVariable name="directTauFac" dimension="time" select="stpMechanism/tauFac" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" value="directR * directU" />
 
 	<!-- SPILLOVER -->
 	<StateVariable name="spilloverA1" dimension="none"/>
@@ -93,14 +94,13 @@
 	<TimeDerivative variable="spilloverDepressionFactor" value="(1 - spilloverDepressionFactor) / spilloverDepressionRecoveryTime"/>
 
 	<OnStart>
+	  <StateAssignment variable="tsince" value="longTime" />
 	  <!-- DIRECT -->
 	  <StateAssignment variable="directA1" value="0" />
 	  <StateAssignment variable="directA2" value="0" />
-	  <StateAssignment variable="directA3" value="0" />
 	  <StateAssignment variable="directB1" value="0" />
 	  <StateAssignment variable="directB2" value="0" />
-	  <StateAssignment variable="directB3" value="0" />
-	  <StateAssignment variable="directDepressionFactor" value="1"/>
+	  <StateAssignment variable="directR" value="1" />
 	  <!-- SPILLOVER -->
 	  <StateAssignment variable="spilloverA1" value="0" />
 	  <StateAssignment variable="spilloverA2" value="0" />
@@ -113,13 +113,12 @@
 
 	<OnEvent port="in">
 	  <!-- DIRECT -->
-	  <StateAssignment variable="directA1" value="directA1 + directDepressionFactor * directFactor1" />
-	  <StateAssignment variable="directA2" value="directA2 + directDepressionFactor * directFactor2" />
-	  <StateAssignment variable="directA3" value="directA3 + directDepressionFactor * directFactor3" />
-	  <StateAssignment variable="directB1" value="directB1 + directDepressionFactor * directFactor1" />
-	  <StateAssignment variable="directB2" value="directB2 + directDepressionFactor * directFactor2" />
-	  <StateAssignment variable="directB3" value="directB3 + directDepressionFactor * directFactor3" />
-	  <StateAssignment variable="directDepressionFactor" value="directDepressionConstant * directDepressionFactor"/>
+	  <StateAssignment variable="directA1" value="directA1 + directPlasticityFactor * directFactor1" />
+	  <StateAssignment variable="directA2" value="directA2 + directPlasticityFactor * directFactor2" />
+	  <StateAssignment variable="directB1" value="directB1 + directPlasticityFactor * directFactor1" />
+	  <StateAssignment variable="directB2" value="directB2 + directPlasticityFactor * directFactor2" />
+	  <StateAssignment variable="directR" value="directR * (1-directU) * exp(-1 * (tsince/directTauRec)) + 1 - exp(-1 * (tsince / directTauRec)) " />
+	  <StateAssignment variable="directU" value="directU * exp(-(tsince) / directTauFac) + directInitReleaseProb * (1 - (directU * exp(-(tsince) / directTauFac)))" />
 
 	  <!-- SPILLOVER -->
 	  <StateAssignment variable="spilloverA1" value="spilloverA1 + spilloverDepressionFactor * spilloverFactor1" />
@@ -129,16 +128,19 @@
 	  <StateAssignment variable="spilloverB2" value="spilloverB2 + spilloverDepressionFactor * spilloverFactor2" />
 	  <StateAssignment variable="spilloverB3" value="spilloverB3 + spilloverDepressionFactor * spilloverFactor3" />
 	  <StateAssignment variable="spilloverDepressionFactor" value="spilloverDepressionConstant * spilloverDepressionFactor"/>
+
+	  <StateAssignment variable="tsince" value="0" />
 	</OnEvent>
 
-	<OnCondition test="directDepressionFactor .lt. directMinimumDepression">
-	  <StateAssignment variable="directDepressionFactor" value="directMinimumDepression"/>
+	<OnCondition test="t .eq. 0">
+	  <StateAssignment variable="directU" value="directInitReleaseProb" />
 	</OnCondition>
+
 	<OnCondition test="spilloverDepressionFactor .lt. spilloverMinimumDepression">
 	  <StateAssignment variable="spilloverDepressionFactor" value="spilloverMinimumDepression"/>
 	</OnCondition>
 
-      </Behavior>
+      </Dynamics>
     </ComponentType>
 
 

@@ -9,14 +9,9 @@
 			   erev="0 mV"
 			   directAmp1="0.423 nS"
 			   directAmp2="0.0780 nS"
-			   directAmp3="0.0145 nS"
 			   directTauRise="0.257 ms"
 			   directTauDecay1="0.2571 ms"
 			   directTauDecay2="2.17 ms"
-			   directTauDecay3="21.6 ms"
-			   directDepressionConstant="0.6"
-			   directMinimumDepression="0.1"
-			   directDepressionRecoveryTime="50 ms"
 			   spilloverAmp1="0.0795 nS"
 			   spilloverAmp2="0.106 nS"
 			   spilloverAmp3="0.00765 nS"
@@ -26,7 +21,9 @@
 			   spilloverTauDecay3="35.3 ms"
 			   spilloverDepressionConstant="0.95"
 			   spilloverMinimumDepression="0.6"
-			   spilloverDepressionRecoveryTime="50 ms"/>
+			   spilloverDepressionRecoveryTime="50 ms">
+      <stpMechanism initReleaseProb="0.5" tauFac="0 ms" tauRec="120 ms" />
+    </GranCellRothmanIfAMPA>
 
 
 </neuroml>

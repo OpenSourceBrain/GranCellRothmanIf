@@ -12,7 +12,7 @@ part of NeuroML or any standardised XML specification. -->
    <string>Integrate &amp; fire model of cerebellar granule cell as developed by Jason Rothman. Based on experimental data from Silver Lab.</string>
   </void>
   <void property="projectFileVersion">
-   <string>neuroConstruct v1.6.1</string>
+   <string>neuroConstruct v1.7.0</string>
   </void>
   <void property="projectName">
    <string>GranCellRothmanIF</string>
@@ -350,7 +350,7 @@ part of NeuroML or any standardised XML specification. -->
    <float>100.0</float>
   </void>
   <void property="reference">
-   <string>Sim_84</string>
+   <string>Sim_90</string>
   </void>
   <void property="saveCopyGenSimFiles">
    <boolean>true</boolean>
@@ -602,30 +602,6 @@ part of NeuroML or any standardised XML specification. -->
         </void>
         <void property="synapseType">
          <string>AMPA</string>
-        </void>
-        <void property="weightsGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.WeightGenerator">
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-       </object>
-      </void>
-      <void method="add">
-       <object class="ucl.physiol.neuroconstruct.project.SynapticProperties">
-        <void property="delayGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.NumberGenerator">
-          <void property="fixedNum">
-           <float>0.0</float>
-          </void>
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-        <void property="synapseType">
-         <string>NMDA</string>
         </void>
         <void property="weightsGenerator">
          <object class="ucl.physiol.neuroconstruct.utils.WeightGenerator">
