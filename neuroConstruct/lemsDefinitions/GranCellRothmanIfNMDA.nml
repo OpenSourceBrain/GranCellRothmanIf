@@ -22,10 +22,10 @@
     <Parameter name="C1" dimension="concentration"/>
     <Parameter name="C2" dimension="concentration"/>
 
-    <Behavior>
+    <Dynamics>
       <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
       <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(deltaBind * theta * v))"/>
-    </Behavior>
+    </Dynamics>
   </ComponentType>
 
 
@@ -48,7 +48,7 @@
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="directSTPMechanism" type="stpMechanism"/>
+      <Child name="stpMechanism" type="stpMechanism"/>
       <Exposure name="directR" dimension="none"/>
       <Exposure name="directU" dimension="none"/>
 
@@ -77,9 +77,9 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directInitReleaseProb" dimension="none" select="directSTPMechanism/initReleaseProb" />
-	<DerivedVariable name="directTauRec" dimension="time" select="directSTPMechanism/tauRec" />
-	<DerivedVariable name="directTauFac" dimension="time" select="directSTPMechanism/tauFac" />
+	<DerivedVariable name="directInitReleaseProb" dimension="none" select="stpMechanism/initReleaseProb" />
+	<DerivedVariable name="directTauRec" dimension="time" select="stpMechanism/tauRec" />
+	<DerivedVariable name="directTauFac" dimension="time" select="stpMechanism/tauFac" />
 	<DerivedVariable name="directPlasticityFactor" dimension="none" value="directR * directU" />
 
 	<OnStart>

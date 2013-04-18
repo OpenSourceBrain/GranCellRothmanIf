@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd" id="GranCellRothmanIfAMPA">
 
+  <ComponentType name="directSTPMechanism" extends="stpMechanism"/>
+  <ComponentType name="spilloverSTPMechanism" extends="stpMechanism"/>
+
     <ComponentType name="GranCellRothmanIfAMPA"
        extends="baseSynapse"
        description="AMPA receptor mediated synapse with short term plasticity, modeled on data published in Rothman2009.">
@@ -18,7 +21,7 @@
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="directSTPMechanism" type="stpMechanism"/>
+      <Child name="directSTPMechanism" type="directSTPMechanism"/>
       <Exposure name="directR" dimension="none"/>
       <Exposure name="directU" dimension="none"/>
 
@@ -32,7 +35,7 @@
       <Parameter name="spilloverTauDecay2" dimension="time"/>
       <Parameter name="spilloverTauDecay3" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="spilloverSTPMechanism" type="stpMechanism"/>
+      <Child name="spilloverSTPMechanism" type="spilloverSTPMechanism"/>
       <Exposure name="spilloverR" dimension="none"/>
       <Exposure name="spilloverU" dimension="none"/>
 
