@@ -18,11 +18,9 @@
 			   spilloverTauRise="0.802 ms"
 			   spilloverTauDecay1="0.8021 ms"
 			   spilloverTauDecay2="7.43 ms"
-			   spilloverTauDecay3="35.3 ms"
-			   spilloverDepressionConstant="0.95"
-			   spilloverMinimumDepression="0.6"
-			   spilloverDepressionRecoveryTime="50 ms">
-      <stpMechanism initReleaseProb="0.5" tauFac="0 ms" tauRec="120 ms" />
+			   spilloverTauDecay3="35.3 ms">
+      <stpMechanism name="directSTPmechanism" initReleaseProb="0.5" tauFac="0 ms" tauRec="120 ms" />
+      <stpMechanism name="spilloverSTPmechanism" initReleaseProb="0.2" tauFac="0 ms" tauRec="120 ms" />
     </GranCellRothmanIfAMPA>
 
 

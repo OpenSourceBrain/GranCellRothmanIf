@@ -17,7 +17,7 @@
       <Parameter name="directTauRise" dimension="time"/>
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
-
+      <!-- short term plasticity parameters -->
       <Child name="directSTPMechanism" type="stpMechanism"/>
       <Exposure name="directR" dimension="none"/>
       <Exposure name="directU" dimension="none"/>
@@ -32,9 +32,9 @@
       <Parameter name="spilloverTauDecay2" dimension="time"/>
       <Parameter name="spilloverTauDecay3" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Parameter name="spilloverDepressionConstant" dimension="none" />
-      <Parameter name="spilloverMinimumDepression" dimension="none"/>
-      <Parameter name="spilloverDepressionRecoveryTime" dimension="time" />
+      <Child name="spilloverSTPMechanism" type="stpMechanism"/>
+      <Exposure name="spilloverR" dimension="none"/>
+      <Exposure name="spilloverU" dimension="none"/>
 
       <Dynamics>
 	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>
@@ -47,10 +47,8 @@
 	<StateVariable name="directA2" dimension="none"/>
 	<StateVariable name="directB1" dimension="none"/>
 	<StateVariable name="directB2" dimension="none"/>
-
 	<StateVariable name="directR" dimension="none" exposure="directR"/>
 	<StateVariable name="directU" dimension="none" exposure="directU"/>
-
 
 	<DerivedVariable name="directPeakTime1" dimension="time" value="(directTauRise * directTauDecay1)/(directTauDecay1 - directTauRise) * ln(directTauDecay1 / directTauRise)" />
 	<DerivedVariable name="directPeakTime2" dimension="time" value="(directTauRise * directTauDecay2)/(directTauDecay2 - directTauRise) * ln(directTauDecay2 / directTauRise)" />
@@ -64,7 +62,7 @@
 
 	<DerivedVariable name="directInitReleaseProb" dimension="none" select="directSTPMechanism/initReleaseProb" />
 	<DerivedVariable name="directTauRec" dimension="time" select="directSTPMechanism/tauRec" />
-	<DerivedVariable name="directTauFac" dimension="time" select="stpMechanism/tauFac" />
+	<DerivedVariable name="directTauFac" dimension="time" select="directSTPMechanism/tauFac" />
 	<DerivedVariable name="directPlasticityFactor" dimension="none" value="directR * directU" />
 
 	<!-- SPILLOVER -->
@@ -74,8 +72,8 @@
 	<StateVariable name="spilloverB1" dimension="none"/>
 	<StateVariable name="spilloverB2" dimension="none"/>
 	<StateVariable name="spilloverB3" dimension="none"/>
-
-	<StateVariable name="spilloverDepressionFactor" dimension="none"/>
+	<StateVariable name="spilloverR" dimension="none" exposure="spilloverR"/>
+	<StateVariable name="spilloverU" dimension="none" exposure="spilloverU"/>
 
 	<DerivedVariable name="spilloverPeakTime1" dimension="time" value="(spilloverTauRise * spilloverTauDecay1)/(spilloverTauDecay1 - spilloverTauRise) * ln(spilloverTauDecay1 / spilloverTauRise)" />
 	<DerivedVariable name="spilloverPeakTime2" dimension="time" value="(spilloverTauRise * spilloverTauDecay2)/(spilloverTauDecay2 - spilloverTauRise) * ln(spilloverTauDecay2 / spilloverTauRise)" />
@@ -91,7 +89,10 @@
 	<TimeDerivative variable="spilloverB2" value="-spilloverB2 / spilloverTauDecay2" />
 	<TimeDerivative variable="spilloverB3" value="-spilloverB3 / spilloverTauDecay3" />
 
-	<TimeDerivative variable="spilloverDepressionFactor" value="(1 - spilloverDepressionFactor) / spilloverDepressionRecoveryTime"/>
+	<DerivedVariable name="spilloverInitReleaseProb" dimension="none" select="spilloverSTPMechanism/initReleaseProb" />
+	<DerivedVariable name="spilloverTauRec" dimension="time" select="spilloverSTPMechanism/tauRec" />
+	<DerivedVariable name="spilloverTauFac" dimension="time" select="spilloverSTPMechanism/tauFac" />
+	<DerivedVariable name="spilloverPlasticityFactor" dimension="none" value="spilloverR * spilloverU" />
 
 	<OnStart>
 	  <StateAssignment variable="tsince" value="longTime" />
@@ -108,7 +109,7 @@
 	  <StateAssignment variable="spilloverB1" value="0" />
 	  <StateAssignment variable="spilloverB2" value="0" />
 	  <StateAssignment variable="spilloverB3" value="0" />
-	  <StateAssignment variable="spilloverDepressionFactor" value="1"/>
+	  <StateAssignment variable="spilloverR" value="1" />
 	</OnStart>
 
 	<OnEvent port="in">
@@ -121,23 +122,21 @@
 	  <StateAssignment variable="directU" value="directU * exp(-(tsince) / directTauFac) + directInitReleaseProb * (1 - (directU * exp(-(tsince) / directTauFac)))" />
 
 	  <!-- SPILLOVER -->
-	  <StateAssignment variable="spilloverA1" value="spilloverA1 + spilloverDepressionFactor * spilloverFactor1" />
-	  <StateAssignment variable="spilloverA2" value="spilloverA2 + spilloverDepressionFactor * spilloverFactor2" />
-	  <StateAssignment variable="spilloverA3" value="spilloverA3 + spilloverDepressionFactor * spilloverFactor3" />
-	  <StateAssignment variable="spilloverB1" value="spilloverB1 + spilloverDepressionFactor * spilloverFactor1" />
-	  <StateAssignment variable="spilloverB2" value="spilloverB2 + spilloverDepressionFactor * spilloverFactor2" />
-	  <StateAssignment variable="spilloverB3" value="spilloverB3 + spilloverDepressionFactor * spilloverFactor3" />
-	  <StateAssignment variable="spilloverDepressionFactor" value="spilloverDepressionConstant * spilloverDepressionFactor"/>
+	  <StateAssignment variable="spilloverA1" value="spilloverA1 + spilloverPlasticityFactor * spilloverFactor1" />
+	  <StateAssignment variable="spilloverA2" value="spilloverA2 + spilloverPlasticityFactor * spilloverFactor2" />
+	  <StateAssignment variable="spilloverA3" value="spilloverA3 + spilloverPlasticityFactor * spilloverFactor3" />
+	  <StateAssignment variable="spilloverB1" value="spilloverB1 + spilloverPlasticityFactor * spilloverFactor1" />
+	  <StateAssignment variable="spilloverB2" value="spilloverB2 + spilloverPlasticityFactor * spilloverFactor2" />
+	  <StateAssignment variable="spilloverB3" value="spilloverB3 + spilloverPlasticityFactor * spilloverFactor3" />
+	  <StateAssignment variable="spilloverR" value="spilloverR * (1-spilloverU) * exp(-1 * (tsince/spilloverTauRec)) + 1 - exp(-1 * (tsince / spilloverTauRec)) " />
+	  <StateAssignment variable="spilloverU" value="spilloverU * exp(-(tsince) / spilloverTauFac) + spilloverInitReleaseProb * (1 - (spilloverU * exp(-(tsince) / spilloverTauFac)))" />
 
 	  <StateAssignment variable="tsince" value="0" />
 	</OnEvent>
 
 	<OnCondition test="t .eq. 0">
 	  <StateAssignment variable="directU" value="directInitReleaseProb" />
-	</OnCondition>
-
-	<OnCondition test="spilloverDepressionFactor .lt. spilloverMinimumDepression">
-	  <StateAssignment variable="spilloverDepressionFactor" value="spilloverMinimumDepression"/>
+	  <StateAssignment variable="spilloverU" value="spilloverInitReleaseProb" />
 	</OnCondition>
 
       </Dynamics>
