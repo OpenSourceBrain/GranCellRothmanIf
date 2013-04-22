@@ -90,13 +90,13 @@ part of NeuroML or any standardised XML specification. -->
      <string>ExcCell</string>
     </void>
     <void method="add">
-     <string>IF_GrC</string>
+     <string>IaF_GrC</string>
     </void>
     <void method="add">
      <string>IF_GrC_156</string>
     </void>
     <void method="add">
-     <string>IF_GrC</string>
+     <string>IaF_GrC</string>
     </void>
    </void>
    <void method="get">
@@ -401,7 +401,7 @@ part of NeuroML or any standardised XML specification. -->
    <float>100.0</float>
   </void>
   <void property="reference">
-   <string>Sim_104</string>
+   <string>Sim_132</string>
   </void>
   <void property="saveCopyGenSimFiles">
    <boolean>true</boolean>
@@ -442,13 +442,16 @@ part of NeuroML or any standardised XML specification. -->
     <object class="ucl.physiol.neuroconstruct.simulation.IClampSettings">
      <void property="amp">
       <void property="fixedNum">
-       <float>0.02</float>
+       <float>0.08</float>
       </void>
      </void>
      <void property="cellGroup">
-      <string>GrCs_dummy</string>
+      <string>GrCs</string>
      </void>
      <void property="dur">
+      <void property="fixedNum">
+       <float>30.0</float>
+      </void>
       <void property="numberType">
        <int>11</int>
       </void>
@@ -633,9 +636,9 @@ part of NeuroML or any standardised XML specification. -->
       <void method="add">
        <string>GrCs</string>
       </void>
-      <void method="add">
-       <string>GrCs_dummy</string>
-      </void>
+     </void>
+     <void property="description">
+      <string>A simple current  clamp simulation.</string>
      </void>
      <void property="inputs">
       <void method="add">
@@ -643,17 +646,9 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="name">
-      <string>basic_lems_test</string>
-     </void>
-     <void property="netConns">
-      <void method="add">
-       <string>GrCs_dummy_to_Grcs</string>
-      </void>
+      <string>current_clamp_test</string>
      </void>
      <void property="plots">
-      <void method="add">
-       <string>GrCs_dummy_v</string>
-      </void>
       <void method="add">
        <string>GrCs_v</string>
       </void>
