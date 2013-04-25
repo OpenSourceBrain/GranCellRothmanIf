@@ -12,7 +12,7 @@
 			   directTauRise="0.8647 ms"
 			   directTauDecay1="13.52 ms"
 			   directTauDecay2="121.9 ms">
-      <stpMechanism name="directSTPmechanism"
+      <stpMechanism type="tsodyksMarkramDepFacMechanism"
 		    initReleaseProb="0.03220"
 		    tauFac="6.394 ms"
 		    tauRec="236.1 ms" />

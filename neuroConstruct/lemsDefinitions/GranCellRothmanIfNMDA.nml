@@ -32,13 +32,12 @@
     <ComponentType name="GranCellRothmanIfNMDA"
        extends="baseSynapse"
        description="NMDA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
-      <Constant name="tsinceRate" dimension="none" value="1"/>
-      <Constant name="longTime" dimension="time" value="1000s"/>
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
-      <Exposure name="tsince" dimension="time"/>
-
+      <Child name="stpMechanism" type="tsodyksMarkramDepFacMechanism"/>
       <Child name="RothmanBlock" type="RothmanBlock"/>
+
+      <EventPort name="relay" direction="out" description="Used to relay incoming spikes to child plasticity mechanism"/>
 
       <!-- DIRECT -->
       <!-- waveform shape parameters -->
@@ -47,25 +46,17 @@
       <Parameter name="directTauRise" dimension="time"/>
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
-      <!-- short term plasticity parameters -->
-      <Child name="stpMechanism" type="stpMechanism"/>
-      <Exposure name="directR" dimension="none"/>
-      <Exposure name="directU" dimension="none"/>
 
       <Dynamics>
 	<DerivedVariable name="block" dimension="none" select="RothmanBlock/scaling" />
 	<DerivedVariable name="g" dimension="conductance" exposure="g" value="block * (directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2))" />
 	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
-	<StateVariable name="tsince" dimension="time" exposure="tsince"/>
-	<TimeDerivative variable="tsince" value="tsinceRate" />
 
 	<!-- DIRECT -->
 	<StateVariable name="directA1" dimension="none"/>
 	<StateVariable name="directA2" dimension="none"/>
 	<StateVariable name="directB1" dimension="none"/>
 	<StateVariable name="directB2" dimension="none"/>
-	<StateVariable name="directR" dimension="none" exposure="directR"/>
-	<StateVariable name="directU" dimension="none" exposure="directU"/>
 
 	<DerivedVariable name="directPeakTime1" dimension="time" value="(directTauRise * directTauDecay1)/(directTauDecay1 - directTauRise) * ln(directTauDecay1 / directTauRise)" />
 	<DerivedVariable name="directPeakTime2" dimension="time" value="(directTauRise * directTauDecay2)/(directTauDecay2 - directTauRise) * ln(directTauDecay2 / directTauRise)" />
@@ -77,19 +68,14 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directInitReleaseProb" dimension="none" select="stpMechanism/initReleaseProb" />
-	<DerivedVariable name="directTauRec" dimension="time" select="stpMechanism/tauRec" />
-	<DerivedVariable name="directTauFac" dimension="time" select="stpMechanism/tauFac" />
-	<DerivedVariable name="directPlasticityFactor" dimension="none" value="directR * directU" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" select="stpMechanism/plasticityFactor" />
 
 	<OnStart>
-	  <StateAssignment variable="tsince" value="longTime" />
 	  <!-- DIRECT -->
 	  <StateAssignment variable="directA1" value="0" />
 	  <StateAssignment variable="directA2" value="0" />
 	  <StateAssignment variable="directB1" value="0" />
 	  <StateAssignment variable="directB2" value="0" />
-	  <StateAssignment variable="directR" value="1" />
 	</OnStart>
 
 	<OnEvent port="in">
@@ -98,15 +84,8 @@
 	  <StateAssignment variable="directA2" value="directA2 + directPlasticityFactor * directFactor2" />
 	  <StateAssignment variable="directB1" value="directB1 + directPlasticityFactor * directFactor1" />
 	  <StateAssignment variable="directB2" value="directB2 + directPlasticityFactor * directFactor2" />
-	  <StateAssignment variable="directR" value="directR * (1-directU) * exp(-1 * (tsince/directTauRec)) + 1 - exp(-1 * (tsince / directTauRec)) " />
-	  <StateAssignment variable="directU" value="directU * exp(-(tsince) / directTauFac) + directInitReleaseProb * (1 - (directU * exp(-(tsince) / directTauFac)))" />
-
-	  <StateAssignment variable="tsince" value="0" />
+	  <EventOut port="relay"/>
 	</OnEvent>
-
-	<OnCondition test="t .eq. 0">
-	  <StateAssignment variable="directU" value="directInitReleaseProb" />
-	</OnCondition>
 
       </Dynamics>
     </ComponentType>

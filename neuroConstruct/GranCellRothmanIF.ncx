@@ -749,7 +749,7 @@ part of NeuroML or any standardised XML specification. -->
      </void>
      <void property="netConns">
       <void method="add">
-       <string>NetConn_GrCs_dummy_GrCs</string>
+       <string>GrCs_dummy_to_Grcs</string>
       </void>
      </void>
      <void property="plots">
