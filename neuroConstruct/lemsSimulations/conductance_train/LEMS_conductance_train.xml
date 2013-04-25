@@ -1,0 +1,86 @@
+<Lems>
+
+    <Target component="sim1"/>
+
+    <!--Simulate granule cell model using as synaptic input the "spike
+         train number 0 at 20 Hz" from Jason's experimental data. Save
+         the resulting AMPA and NMDA conductance waveforms to external
+         files so that they can be compared with other implementations
+         of the same model (eg pure python, and hopefully NEURON
+         soon)-->
+
+    <Include file="NeuroMLCoreDimensions.xml"/>
+    <Include file="Cells.xml"/>
+    <Include file="Networks.xml"/>
+    <Include file="Simulation.xml"/>
+
+    <Include file="AMPA.nml"/>
+    <Include file="NMDA.nml"/>
+
+
+    <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
+
+    <spikeArray id="spikes">
+      <spike id="0" time="83.47 ms"/>
+      <spike id="1" time="112.42 ms"/>
+      <spike id="2" time="170.37 ms"/>
+      <spike id="3" time="213.75 ms"/>
+      <spike id="4" time="224.73 ms"/>
+      <spike id="5" time="362.65 ms"/>
+      <spike id="6" time="363.99 ms"/>
+      <spike id="7" time="462.74 ms"/>
+      <spike id="8" time="674.69 ms"/>
+      <spike id="9" time="688.45 ms"/>
+      <spike id="10" time="690.06 ms"/>
+      <spike id="11" time="735.74 ms"/>
+      <spike id="12" time="738.59 ms"/>
+      <spike id="13" time="816.74 ms"/>
+      <spike id="14" time="879.93 ms"/>
+      <spike id="15" time="908.03 ms"/>
+      <spike id="16" time="910.5 ms"/>
+      <spike id="17" time="986.92 ms"/>
+      <spike id="18" time="993.28 ms"/>
+      <spike id="19" time="1051.23 ms"/>
+      <spike id="20" time="1106.6 ms"/>
+      <spike id="21" time="1241.23 ms"/>
+      <spike id="22" time="1278.96 ms"/>
+      <spike id="23" time="1327.2 ms"/>
+      <spike id="24" time="1417.8 ms"/>
+      <spike id="25" time="1422.98 ms"/>
+      <spike id="26" time="1547.78 ms"/>
+      <spike id="27" time="1568.48 ms"/>
+      <spike id="28" time="1647.94 ms"/>
+      <spike id="29" time="1687.18 ms"/>
+      <spike id="30" time="1714.62 ms"/>
+      <spike id="31" time="1773.38 ms"/>
+      <spike id="32" time="1803.76 ms"/>
+      <spike id="33" time="1852.16 ms"/>
+      <spike id="34" time="1953.77 ms"/>
+    </spikeArray>
+
+    <network id="network_GranCellRothmanIF">
+
+        <extracellularProperties temperature="23.0 degC"/>
+
+	<population id="spikeArrayPop" component="spikes" size="1"/>
+        <population id="GrCs" component="IaF_GrC" size="2"/>
+
+	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="AMPA" destination="synapses"/>
+	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="NMDA" destination="synapses"/>
+    </network>
+
+
+    <Simulation id="sim1" length="2000.0ms" step="0.025ms" target="network_GranCellRothmanIF">
+        <Display id="GrCs_v" title="GranCellRothmanIF: synaptic_transmission_test, GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="2000.0" ymin="-0.1" ymax="1">
+            <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/AMPA/g" scale="1 nS" color="#000000" save="/home/ucbtepi/phd/nC_projects/GranCellRothmanIf/neuroConstruct/lemsSimulations/conductance_train/AMPA.dat"/>
+            <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/NMDA/g" scale="1 nS" color="#04B431"/>
+        </Display>
+        <OutputFile id="of0" fileName="gAMPA_LEMS_20hz_G0.dat">
+            <OutputColumn id="g" quantity="GrCs[0]/AMPA/g"/>
+        </OutputFile>
+        <OutputFile id="of1" fileName="gNMDA_LEMS_20Hz_G0.dat">
+            <OutputColumn id="g" quantity="GrCs[0]/NMDA/g"/>
+        </OutputFile>
+    </Simulation>
+
+</Lems>
