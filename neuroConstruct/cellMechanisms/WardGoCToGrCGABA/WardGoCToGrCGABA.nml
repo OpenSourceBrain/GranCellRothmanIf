@@ -14,7 +14,7 @@
     (0.3944nS=0.27nS/0.6846).
   </notes>
 
-  <stpSynapse id="WardGolgiToGrCGABA"
+  <stpSynapse id="WardGoCToGrCGABA"
 	      gbase="0.3944 nS"
 	      erev="-75 mV"
 	      tauRise="2.1 ms"
