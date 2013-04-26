@@ -50,19 +50,11 @@
                 </bio:init_memb_potential></biophysics>
 
             <connectivity>
-                <net:potential_syn_loc synapse_type="AMPA">
+                <net:potential_syn_loc synapse_type="RothmanMFToGrCAMPA">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
             
-                <net:potential_syn_loc synapse_type="AMPA_noSTP">
-                    <net:group>all</net:group>
-                </net:potential_syn_loc>
-            
-                <net:potential_syn_loc synapse_type="NMDA">
-                    <net:group>all</net:group>
-                </net:potential_syn_loc>
-            
-                <net:potential_syn_loc synapse_type="NMDA_noSTP">
+                <net:potential_syn_loc synapse_type="RothmanMFToGrCNMDA">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
             

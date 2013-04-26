@@ -80,9 +80,6 @@ part of NeuroML or any standardised XML specification. -->
     <void method="add">
      <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter"/>
     </void>
-    <void method="add">
-     <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter"/>
-    </void>
    </void>
    <void method="get">
     <string>Cell Type</string>
@@ -93,9 +90,6 @@ part of NeuroML or any standardised XML specification. -->
      <string>IaF_GrC</string>
     </void>
     <void method="add">
-     <string>IF_GrC_156</string>
-    </void>
-    <void method="add">
      <string>IaF_GrC</string>
     </void>
    </void>
@@ -103,9 +97,6 @@ part of NeuroML or any standardised XML specification. -->
     <string>Priority</string>
     <void method="add">
      <int>9</int>
-    </void>
-    <void method="add">
-     <int>8</int>
     </void>
     <void method="add">
      <int>8</int>
@@ -134,14 +125,6 @@ part of NeuroML or any standardised XML specification. -->
     </void>
     <void method="add">
      <object class="java.awt.Color">
-      <int>2</int>
-      <int>71</int>
-      <int>54</int>
-      <int>255</int>
-     </object>
-    </void>
-    <void method="add">
-     <object class="java.awt.Color">
       <int>102</int>
       <int>67</int>
       <int>54</int>
@@ -160,9 +143,6 @@ part of NeuroML or any standardised XML specification. -->
     <void method="add">
      <string>Regions_1</string>
     </void>
-    <void method="add">
-     <string>Regions_1</string>
-    </void>
    </void>
    <void method="get">
     <string>Cell Group Name</string>
@@ -171,9 +151,6 @@ part of NeuroML or any standardised XML specification. -->
     </void>
     <void method="add">
      <string>GrCs</string>
-    </void>
-    <void method="add">
-     <string>GrCs_156</string>
     </void>
     <void method="add">
      <string>GrCs_dummy</string>
@@ -641,9 +618,6 @@ part of NeuroML or any standardised XML specification. -->
     <object class="ucl.physiol.neuroconstruct.project.SimConfig">
      <void property="cellGroups">
       <void method="add">
-       <string>GrCs_156</string>
-      </void>
-      <void method="add">
        <string>stims</string>
       </void>
      </void>
@@ -657,11 +631,6 @@ part of NeuroML or any standardised XML specification. -->
      </void>
      <void property="name">
       <string>rate_IO_156</string>
-     </void>
-     <void property="netConns">
-      <void method="add">
-       <string>stims_to_GrCs_156</string>
-      </void>
      </void>
      <void property="plots">
       <void method="add">
@@ -778,9 +747,6 @@ part of NeuroML or any standardised XML specification. -->
      <string>stims_to_GrCs_noSTP</string>
     </void>
     <void method="add">
-     <string>stims_to_GrCs_156</string>
-    </void>
-    <void method="add">
      <string>GrCs_dummy_to_Grcs</string>
     </void>
     <void method="add">
@@ -789,9 +755,6 @@ part of NeuroML or any standardised XML specification. -->
    </void>
    <void method="get">
     <string>AP speed</string>
-    <void method="add">
-     <float>3.4028235E38</float>
-    </void>
     <void method="add">
      <float>3.4028235E38</float>
     </void>
@@ -928,58 +891,6 @@ part of NeuroML or any standardised XML specification. -->
         <void property="synapseType">
          <string>AMPA</string>
         </void>
-        <void property="weightsGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.WeightGenerator">
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-       </object>
-      </void>
-      <void method="add">
-       <object class="ucl.physiol.neuroconstruct.project.SynapticProperties">
-        <void property="delayGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.NumberGenerator">
-          <void property="fixedNum">
-           <float>0.0</float>
-          </void>
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-        <void property="synapseType">
-         <string>NMDA</string>
-        </void>
-        <void property="weightsGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.WeightGenerator">
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-       </object>
-      </void>
-     </object>
-    </void>
-    <void method="add">
-     <object class="java.util.Vector">
-      <void method="add">
-       <object class="ucl.physiol.neuroconstruct.project.SynapticProperties">
-        <void property="delayGenerator">
-         <object class="ucl.physiol.neuroconstruct.utils.NumberGenerator">
-          <void property="fixedNum">
-           <float>0.0</float>
-          </void>
-          <void property="numberType">
-           <int>11</int>
-          </void>
-         </object>
-        </void>
-        <void property="synapseType">
-         <string>AMPA</string>
-        </void>
         <void property="threshold">
          <double>-40.0</double>
         </void>
@@ -1067,9 +978,6 @@ part of NeuroML or any standardised XML specification. -->
     <void method="add">
      <object class="ucl.physiol.neuroconstruct.project.MaxMinLength"/>
     </void>
-    <void method="add">
-     <object class="ucl.physiol.neuroconstruct.project.MaxMinLength"/>
-    </void>
    </void>
    <void method="get">
     <string>Search Pattern</string>
@@ -1101,19 +1009,9 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </object>
     </void>
-    <void method="add">
-     <object class="ucl.physiol.neuroconstruct.project.SearchPattern">
-      <void property="type">
-       <int>0</int>
-      </void>
-     </object>
-    </void>
    </void>
    <void method="get">
     <string>Source</string>
-    <void method="add">
-     <string>stims</string>
-    </void>
     <void method="add">
      <string>stims</string>
     </void>
@@ -1157,13 +1055,6 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </object>
     </void>
-    <void method="add">
-     <object class="ucl.physiol.neuroconstruct.project.ConnectivityConditions">
-      <void property="allowAutapses">
-       <boolean>false</boolean>
-      </void>
-     </object>
-    </void>
    </void>
    <void method="get">
     <string>Target</string>
@@ -1172,9 +1063,6 @@ part of NeuroML or any standardised XML specification. -->
     </void>
     <void method="add">
      <string>GrCs</string>
-    </void>
-    <void method="add">
-     <string>GrCs_156</string>
     </void>
     <void method="add">
      <string>GrCs</string>

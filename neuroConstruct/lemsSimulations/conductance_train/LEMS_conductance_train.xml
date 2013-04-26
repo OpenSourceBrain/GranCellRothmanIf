@@ -14,8 +14,8 @@
     <Include file="Networks.xml"/>
     <Include file="Simulation.xml"/>
 
-    <Include file="../../cellMechanisms/AMPA/AMPA.nml"/>
-    <Include file="../../cellMechanisms/NMDA/NMDA.nml"/>
+    <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+    <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
 
 
     <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
@@ -65,21 +65,21 @@
 	<population id="spikeArrayPop" component="spikes" size="1"/>
         <population id="GrCs" component="IaF_GrC" size="2"/>
 
-	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="AMPA" destination="synapses"/>
-	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="NMDA" destination="synapses"/>
+	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
     </network>
 
 
     <Simulation id="sim1" length="2000.0ms" step="0.025ms" target="network_GranCellRothmanIF">
         <Display id="GrCs_v" title="GranCellRothmanIF: synaptic_transmission_test, GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="2000.0" ymin="-0.1" ymax="1">
-            <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/AMPA/g" scale="1 nS" color="#000000" save="/home/ucbtepi/phd/nC_projects/GranCellRothmanIf/neuroConstruct/lemsSimulations/conductance_train/AMPA.dat"/>
-            <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/NMDA/g" scale="1 nS" color="#04B431"/>
+            <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/g" scale="1 nS" color="#000000"/>
+            <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/g" scale="1 nS" color="#04B431"/>
         </Display>
         <OutputFile id="of0" fileName="gAMPA_LEMS_20hz_G0.dat">
-            <OutputColumn id="g" quantity="GrCs[0]/AMPA/g"/>
+            <OutputColumn id="g" quantity="GrCs[0]/RothmanMFToGrCAMPA/g"/>
         </OutputFile>
         <OutputFile id="of1" fileName="gNMDA_LEMS_20Hz_G0.dat">
-            <OutputColumn id="g" quantity="GrCs[0]/NMDA/g"/>
+            <OutputColumn id="g" quantity="GrCs[0]/RothmanMFToGrCNMDA/g"/>
         </OutputFile>
     </Simulation>
 

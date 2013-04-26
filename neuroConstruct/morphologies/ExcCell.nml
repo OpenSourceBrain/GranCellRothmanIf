@@ -57,15 +57,7 @@
                 </bio:init_memb_potential></biophysics>
 
             <connectivity>
-                <net:potential_syn_loc synapse_type="AMPA">
-                    <net:group>all</net:group>
-                </net:potential_syn_loc>
-            
                 <net:potential_syn_loc synapse_type="FastSynInput">
-                    <net:group>all</net:group>
-                </net:potential_syn_loc>
-            
-                <net:potential_syn_loc synapse_type="NMDA">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
             </connectivity>

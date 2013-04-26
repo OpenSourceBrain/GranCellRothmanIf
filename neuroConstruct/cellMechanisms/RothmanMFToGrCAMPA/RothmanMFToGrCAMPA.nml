@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2beta.xsd" id="RothmanMFToGrCAMPA">
+
+    <notes>NeuroML 2 file containing a single synapse</notes>
+
+    <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpDirectTetraExpSpilloverStpSynapse.nml"/>
+
+    <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA"
+					     erev="0 mV"
+					     directAmp1="3.724 nS"
+					     directAmp2="0.3033 nS"
+					     directTauRise="0.3274 ms"
+					     directTauDecay1="0.3351 ms"
+					     directTauDecay2="1.651 ms"
+					     spilloverAmp1="0.2487 nS"
+					     spilloverAmp2="0.2799 nS"
+					     spilloverAmp3="0.1268 nS"
+					     spilloverTauRise="0.5548 ms"
+					     spilloverTauDecay1="0.4 ms"
+					     spilloverTauDecay2="4.899 ms"
+					     spilloverTauDecay3="43.10 ms">
+      <directStpMechanism type="tsodyksMarkramDepMechanism"
+			  initReleaseProb="0.1249"
+			  tauRec="131 ms" />
+      <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+			     initReleaseProb="0.2792"
+			     tauRec="14.85 ms" />
+    </TriExpDirectTetraExpSpilloverStpSynapse>
+
+
+</neuroml>
