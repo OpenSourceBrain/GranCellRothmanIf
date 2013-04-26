@@ -3,7 +3,7 @@
 
     <notes>NeuroML 2 file containing a single synapse</notes>
 
-    <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.nml"/>
+    <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
 
     <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA"
 			   erev="0 mV"
