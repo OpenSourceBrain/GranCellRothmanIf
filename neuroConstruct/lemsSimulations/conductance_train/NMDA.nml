@@ -7,8 +7,8 @@
 
     <GranCellRothmanIfNMDA id="NMDA"
 			   erev="0 mV"
-			   directAmp1="3.683 nS"
-			   directAmp2="0.5730 nS"
+			   directAmp1="17.00 nS"
+			   directAmp2="2.645 nS"
 			   directTauRise="0.8647 ms"
 			   directTauDecay1="13.52 ms"
 			   directTauDecay2="121.9 ms">
