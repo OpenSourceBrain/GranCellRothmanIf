@@ -54,7 +54,7 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directPlasticityFactor" dimension="none" select="directStpMechanism/plasticityFactor" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" select="directStpMechanism/stpFactor" />
 
 	<!-- SPILLOVER -->
 	<StateVariable name="spilloverA1" dimension="none"/>
@@ -78,7 +78,7 @@
 	<TimeDerivative variable="spilloverB2" value="-spilloverB2 / spilloverTauDecay2" />
 	<TimeDerivative variable="spilloverB3" value="-spilloverB3 / spilloverTauDecay3" />
 
-	<DerivedVariable name="spilloverPlasticityFactor" dimension="none" select="spilloverStpMechanism/plasticityFactor" />
+	<DerivedVariable name="spilloverPlasticityFactor" dimension="none" select="spilloverStpMechanism/stpFactor" />
 
 	<OnStart>
 	  <!-- DIRECT -->

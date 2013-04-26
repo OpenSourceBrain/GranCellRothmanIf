@@ -18,14 +18,15 @@
 		    initReleaseProb="0.03220"
 		    tauFac="6.394 ms"
 		    tauRec="236.1 ms" />
-      <RothmanBlock species="mg"
-		    z="2"
-		    T="308.15 K"
-		    blockConcentration="1 mM"
-		    deltaBind="0.35"
-		    deltaPerm="0.53"
-		    C1="2.07 mM"
-		    C2="0.015 mM"/>
+      <blockMechanism type="RothmanBlock"
+		      species="mg"
+		      z="2"
+		      T="308.15 K"
+		      blockConcentration="1 mM"
+		      deltaBind="0.35"
+		      deltaPerm="0.53"
+		      C1="2.07 mM"
+		      C2="0.015 mM"/>
     </TriExpBlockStpSynapse>
 
 </neuroml>

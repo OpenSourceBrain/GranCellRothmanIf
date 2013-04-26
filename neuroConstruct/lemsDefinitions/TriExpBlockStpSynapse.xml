@@ -34,7 +34,7 @@
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
       <Child name="stpMechanism" type="tsodyksMarkramDepFacMechanism"/>
-      <Child name="RothmanBlock" type="RothmanBlock"/>
+      <Child name="blockMechanism" type="baseBlock"/>
 
       <EventPort name="relay" direction="out" description="Used to relay incoming spikes to child plasticity mechanism"/>
 
@@ -47,8 +47,8 @@
       <Parameter name="directTauDecay2" dimension="time"/>
 
       <Dynamics>
-	<DerivedVariable name="block" dimension="none" select="RothmanBlock/scaling" />
-	<DerivedVariable name="g" dimension="conductance" exposure="g" value="block * (directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2))" />
+	<DerivedVariable name="blockFactor" dimension="none" select="blockMechanism/scaling" />
+	<DerivedVariable name="g" dimension="conductance" exposure="g" value="blockFactor * (directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2))" />
 	<DerivedVariable name="i" exposure="i" dimension="current" value="g * (erev - v)" />
 
 	<!-- DIRECT -->
@@ -67,7 +67,7 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directPlasticityFactor" dimension="none" select="stpMechanism/plasticityFactor" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" select="stpMechanism/stpFactor" />
 
 	<OnStart>
 	  <!-- DIRECT -->
