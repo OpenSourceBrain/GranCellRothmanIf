@@ -1,5 +1,5 @@
 <Lems>
-  <Target component="sim1"/>
+  <Target component="modelExample"/>
 
   <Include file="NeuroMLCoreDimensions.xml"/>
   <Include file="Cells.xml"/>
@@ -32,7 +32,7 @@
   <!--  <Include file="InputFrequencies.nml"/> -->
 
   <spikeGeneratorPoisson id="mossySpiker" averageRate="20 per_s"/>
-  <spikeGeneratorPoisson id="golgiSpiker" averageRate="100 per_s"/>
+  <spikeGeneratorPoisson id="golgiSpiker" averageRate="10 per_s"/>
 
 
   <spikeRecorder id="spikeRecorder"/>
@@ -63,15 +63,27 @@
   </network>
 
 
-  <Simulation id="sim1" length="10 s" step="0.025 ms" target="rateIONetwork">
-<!--
-    <Display id="GrCs_v" title="GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="1020.0" ymin="-80.0" ymax="-35.0">
+  <Simulation id="modelExample" length="0.5 s" step="0.025 ms" target="rateIONetwork">
+    <Display id="GrCs_v" title="GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-80.0" ymax="-35.0">
       <Line id="GrCs_v" timeScale="1ms" quantity="GrCs[0]/v" scale="1 mV" color="#000000"/>
     </Display>
-    <Display id="conductances" title="Phasic GABA synaptic conductance" timeScale="1ms" xmin="-10.0" xmax="1020.0" ymin="-0.1" ymax="1">
-      <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#000000"/>
+    <Display id="conductances" title="Synaptic conductances" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-0.1" ymax="1">
+      <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#0B610B"/>
+      <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/g" scale="1 nS" color="#DF013A"/>
+      <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/g" scale="1 nS" color="#4000FF"/>
     </Display>
--->
+    <Display id="currents" title="Synaptic currents" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-20" ymax="40">
+      <Line id="iGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/i" scale="1 pA" color="#0B610B"/>
+      <Line id="iAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/i" scale="1 pA" color="#DF013A"/>
+      <Line id="iNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/i" scale="1 pA" color="#4000FF"/>
+    </Display>
+    <Display id="blockFactor" title="Blockage factor" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="0.05" ymax="0.25">
+      <Line id="blockFactor" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/blockFactor" scale="1" color="#4000FF"/>
+    </Display>
+
+  </Simulation>
+
+  <Simulation id="rateIO" length="10 s" step="0.025 ms" target="rateIONetwork">
     <OutputFile id="of0" fileName="spike_count.dat">
       <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
     </OutputFile>
