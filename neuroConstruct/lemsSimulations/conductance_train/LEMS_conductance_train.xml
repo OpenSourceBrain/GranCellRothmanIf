@@ -63,7 +63,7 @@
         <extracellularProperties temperature="23.0 degC"/>
 
 	<population id="spikeArrayPop" component="spikes" size="1"/>
-        <population id="GrCs" component="IaF_GrC" size="2"/>
+        <population id="GrCs" component="IaF_GrC" size="1"/>
 
 	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
 	<synapticConnection from="spikeArrayPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
@@ -71,7 +71,10 @@
 
 
     <Simulation id="sim1" length="2000.0ms" step="0.025ms" target="network_GranCellRothmanIF">
-        <Display id="GrCs_v" title="GranCellRothmanIF: synaptic_transmission_test, GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="2000.0" ymin="-0.1" ymax="1">
+        <Display id="GrCs_v" title="GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="2020.0" ymin="-80.0" ymax="-35.0">
+            <Line id="GrCs_v" timeScale="1ms" quantity="GrCs[0]/v" scale="1 mV" color="#000000"/>
+        </Display>
+        <Display id="conductances" title="AMPA and NMDA synaptic conductances" timeScale="1ms" xmin="-10.0" xmax="2020.0" ymin="-0.1" ymax="1">
             <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/g" scale="1 nS" color="#000000"/>
             <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/g" scale="1 nS" color="#04B431"/>
         </Display>

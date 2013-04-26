@@ -61,6 +61,10 @@
                 <net:potential_syn_loc synapse_type="SingleExpSyn">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
+            
+                <net:potential_syn_loc synapse_type="WardGoCToGrCGABA">
+                    <net:group>all</net:group>
+                </net:potential_syn_loc>
             </connectivity>
 
         </cell>

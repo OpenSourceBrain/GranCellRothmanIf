@@ -11,12 +11,21 @@ Note the following:
    Mechanism Type should only have values: Channel mechanism, Synaptic mechanism, Ion concentration, Point process, Gap junction
 
 </comment>
-<entry key="Mechanism Name">RothmanMFToGrCNMDA</entry>
+<entry key="Mechanism Name">WardGoCToGrCGABA</entry>
 <entry key="Mechanism Model">NeuroML 2 file</entry>
 <entry key="Mechanism Type">NeuroML 2 synapse</entry>
 <entry key="Implementation method">NeuroML 2 Component</entry>
-<entry key="ChannelML file">RothmanMFToGrCNMDA.nml</entry>
+<entry key="ChannelML file">WardGoCToGrCGABA.nml</entry>
 <entry key="Description">
-      NMDAR-mediated synapse between mossy fibre and cerebellar granule cell. Short term plasticity and waveform shapes (ie relative amplitudes of exponential factors) are modeled on data published in Rothman2009; absolute peak amplitude is taken from Schwartz2012.
-    </entry>
+    GABAR-mediated synapse between cerebellar Golgi and granule
+    cell as described in Ward, D. R. Golgi cell mediated
+    inhibition in the cerebellar granule cell layer. PhD thesis,
+    University College London, 2012. Average over direct and
+    spillover-only connections.
+
+    Note that, because of how the STP model is defined, the
+    'gbase' parameter corresponds to the experimentally measured
+    'amplitude' divided by 'initReleaseProb'
+    (0.3944nS=0.27nS/0.6846).
+  </entry>
 </properties>
