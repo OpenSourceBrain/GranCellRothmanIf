@@ -5,7 +5,7 @@
 
     <ComponentType name="TriExpDirectTetraExpSpilloverStpSynapse"
        extends="baseSynapse"
-       description="AMPA receptor mediated synapse with short term plasticity, modeled on data published in Rothman2009.">
+       description="Synapse with a direct (fast) and a spillover (slow) component, each with its separate short term plasticity model. Basic waveforms are triexponential (one rise time, two decay times) for direct, and tetraexponential (one rise time, three decay times) for spillover.">
       <Constant name="tsinceRate" dimension="none" value="1"/>
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>

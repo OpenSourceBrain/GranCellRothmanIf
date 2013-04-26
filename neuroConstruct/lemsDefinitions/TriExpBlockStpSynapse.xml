@@ -30,7 +30,7 @@
 
     <ComponentType name="TriExpBlockStpSynapse"
        extends="baseSynapse"
-       description="NMDA receptor mediated synapse with short term plasticity, as modeled in Schwartz2012.">
+       description="Blocking synapse with short term plasticity and triexponential basic waveform (one rise time, two decay times).">
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
       <Child name="stpMechanism" type="tsodyksMarkramDepFacMechanism"/>

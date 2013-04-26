@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2beta.xsd" id="RothmanMFToGrCNMDA">
 
-    <notes>NeuroML 2 file containing a single synapse</notes>
+    <notes>
+      NMDAR-mediated synapse between mossy fibre and cerebellar granule cell. Short term plasticity and waveform shapes (ie relative amplitudes of exponential factors) are modeled on data published in Rothman2009; absolute peak amplitude is taken from Schwartz2012.
+    </notes>
 
     <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
 
