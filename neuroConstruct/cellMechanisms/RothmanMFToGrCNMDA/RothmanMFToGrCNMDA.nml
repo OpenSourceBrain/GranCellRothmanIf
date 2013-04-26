@@ -6,6 +6,7 @@
     </notes>
 
     <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
+<Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/RothmanBlock.xml"/>
 
     <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA"
 			   erev="0 mV"

@@ -1,0 +1,28 @@
+<Lems>
+  <Include file="NeuroMLCoreDimensions.xml"/>
+  <Include file="Synapses.xml"/>
+
+  <ComponentType name="RothmanBlock"
+    extends="baseBlock"
+    description="Synaptic blockage model used for the NMDA-mediated synapse in Schwartz2012.">
+    <Text name="species"/>
+
+    <Requirement name="v" dimension="voltage"/>
+
+    <Constant name="faradayConstant" dimension="charge_per_mole" value="96485.3365 C_per_mol"/>
+    <Constant name="idealGasConstant" dimension="idealGasConstantDims" value="8.3144621 J_per_K_per_mol"/>
+
+    <Parameter name="z" dimension="none"/>
+    <Parameter name="T" dimension="temperature"/>
+    <Parameter name="blockConcentration" dimension="concentration"/>
+    <Parameter name="deltaBind" dimension="none"/>
+    <Parameter name="deltaPerm" dimension="none"/>
+    <Parameter name="C1" dimension="concentration"/>
+    <Parameter name="C2" dimension="concentration"/>
+
+    <Dynamics>
+      <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
+      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(-deltaBind * theta * v))"/>
+    </Dynamics>
+  </ComponentType>
+</Lems>
