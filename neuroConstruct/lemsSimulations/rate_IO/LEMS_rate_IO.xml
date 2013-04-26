@@ -1,0 +1,80 @@
+<Lems>
+  <Target component="sim1"/>
+
+  <Include file="NeuroMLCoreDimensions.xml"/>
+  <Include file="Cells.xml"/>
+  <Include file="Networks.xml"/>
+  <Include file="Simulation.xml"/>
+
+  <ComponentType name="spikeRecorder"
+		 extends="baseSynapse"
+		 description="Records the arrival times of incoming spikes, and keeps the count of the total. Very crude implementation, but gets the job done.">
+    <!--<GlobalVariable name="t" dimension="time" />-->
+    <Dynamics>
+      <StateVariable name="i" exposure="i" dimension="current"/>
+      <StateVariable name="spikeCount" dimension="none"/>
+      <OnEvent port="in">
+	<StateAssignment variable="spikeCount" value="spikeCount + 1"/>
+      </OnEvent>
+      <OnStart>
+	<StateAssignment variable="i" value="0"/>
+	<StateAssignment variable="spikeCount" value="0"/>
+      </OnStart>
+    </Dynamics>
+  </ComponentType>
+
+  <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+  <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
+  <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
+
+  <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
+
+  <!--  <Include file="InputFrequencies.nml"/> -->
+
+  <spikeGeneratorPoisson id="mossySpiker" averageRate="20 per_s"/>
+  <spikeGeneratorPoisson id="golgiSpiker" averageRate="100 per_s"/>
+
+
+  <spikeRecorder id="spikeRecorder"/>
+
+  <network id="rateIONetwork">
+    <population id="mossySpikerPop" component="mossySpiker" size="4"/>
+    <population id="golgiSpikerPop" component="golgiSpiker" size="1"/>
+    <population id="GrCs" component="IaF_GrC" size="1"/>
+    <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
+
+    <!-- mossy to granule AMPA -->
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+
+    <!-- mossy to granule NMDA -->
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+
+    <!-- golgi to granule -->
+    <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+
+    <!-- granule to spike recorder -->
+    <synapticConnection from="GrCs[0]" to="secondLayerGrCs[0]" synapse="spikeRecorder" destination="synapses"/>
+  </network>
+
+
+  <Simulation id="sim1" length="10 s" step="0.025 ms" target="rateIONetwork">
+<!--
+    <Display id="GrCs_v" title="GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="1020.0" ymin="-80.0" ymax="-35.0">
+      <Line id="GrCs_v" timeScale="1ms" quantity="GrCs[0]/v" scale="1 mV" color="#000000"/>
+    </Display>
+    <Display id="conductances" title="Phasic GABA synaptic conductance" timeScale="1ms" xmin="-10.0" xmax="1020.0" ymin="-0.1" ymax="1">
+      <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#000000"/>
+    </Display>
+-->
+    <OutputFile id="of0" fileName="spike_count.dat">
+      <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
+    </OutputFile>
+  </Simulation>
+
+</Lems>
