@@ -19,7 +19,8 @@
 	      erev="-75 mV"
 	      tauRise="2.1 ms"
 	      tauDecay="23 ms">
-    <stpMechanism initReleaseProb="0.6846"
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.6846"
 		  tauFac="11.45 ms"
 		  tauRec="129.7 ms" />
   </stpSynapse>
