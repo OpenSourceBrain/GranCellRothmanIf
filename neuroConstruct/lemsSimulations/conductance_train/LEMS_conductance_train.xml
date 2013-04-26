@@ -14,8 +14,8 @@
     <Include file="Networks.xml"/>
     <Include file="Simulation.xml"/>
 
-    <Include file="AMPA.nml"/>
-    <Include file="NMDA.nml"/>
+    <Include file="../../cellMechanisms/AMPA/AMPA.nml"/>
+    <Include file="../../cellMechanisms/NMDA/NMDA.nml"/>
 
 
     <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>

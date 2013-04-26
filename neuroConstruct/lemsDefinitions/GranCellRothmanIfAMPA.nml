@@ -18,7 +18,7 @@
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="directStpMechanism" type="tsodyksMarkramSTPMechanism"/>
+      <Child name="directStpMechanism" type="stpMechanism"/>
 
       <!-- SPILLOVER -->
       <!-- waveform shape parameters -->
@@ -30,7 +30,7 @@
       <Parameter name="spilloverTauDecay2" dimension="time"/>
       <Parameter name="spilloverTauDecay3" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="spilloverStpMechanism" type="tsodyksMarkramSTPMechanism"/>
+      <Child name="spilloverStpMechanism" type="stpMechanism"/>
 
       <Dynamics>
 	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd" id="GranCellRothmanIfNMDA">
 
-  <Dimension name="per_temperature" k="-1"/>
-  <Unit symbol="per_K" dimension="per_temperature" powTen="0"/>
-
   <ComponentType name="RothmanBlock"
     extends="baseBlock"
     description="Synaptic blockage model used for the NMDA-mediated synapse in Schwartz2012.">
