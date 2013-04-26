@@ -23,7 +23,7 @@
 
     <Dynamics>
       <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
-      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(deltaBind * theta * v))"/>
+      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(-deltaBind * theta * v))"/>
     </Dynamics>
   </ComponentType>
 
