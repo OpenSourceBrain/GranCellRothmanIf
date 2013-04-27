@@ -31,6 +31,11 @@ def create_stim_rate_file(inh_rate, exc_rate, golgi_sync=False):
         ET.ElementTree(Lems).write(freq_file)
 
 def main():
+    jason_stim_range = np.array([30,60,90,120,150,180,210,240,300,360,420,480,540,600],
+                                dtype=np.float)/4.
+    jason_rates_156 = np.array([1.95918 ,9.89796, 30.4286, 51.6735,
+                                  87.8163, 121.86, 165.324, 197.594, 258.538,
+                                  296.905, 328.778, 351.688, 368.357, 377])
     exc_rate_range = np.arange(0, 150, 20)
     inh_rate_range = [0, 10, 50]
     out_firing_rates = []
@@ -52,6 +57,7 @@ def main():
             out_firing_rates[-1][k] = spike_count/1.
 
     fig, ax = plt.subplots()
+    ax.plot(jason_stim_range, jason_rates_156, color="k", label="java")
     for k, inh_rate in enumerate(inh_rate_range):
         ax.plot(exc_rate_range, out_firing_rates[k],
                 label="inh: {0}Hz".format(inh_rate))

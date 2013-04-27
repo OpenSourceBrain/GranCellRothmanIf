@@ -28,6 +28,7 @@
   <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
 
   <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
+  <iafRefCell id="IaF_GrC_156" leakReversal="-77.23mV" leakConductance="1.717nS" thresh="-40mV" reset="-63mV" C="3.2pF" refract="2ms"/>
 
   <Include file="InputFrequencies.xml"/>
   <!---
@@ -40,7 +41,7 @@
   <network id="rateIONetwork">
     <population id="mossySpikerPop" component="mossySpiker" size="4"/>
     <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>
-    <population id="GrCs" component="IaF_GrC" size="1"/>
+    <population id="GrCs" component="IaF_GrC_156" size="1"/>
     <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
 
     <!-- mossy to granule AMPA -->
