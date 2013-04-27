@@ -4,25 +4,62 @@ import os
 import subprocess
 import numpy as np
 from matplotlib import pyplot as plt
+import xml.etree.ElementTree as ET
 
-stim_rate_range = np.arange(0, 15, 10)
-firing_rates = np.zeros(shape=stim_rate_range.shape)
+def create_stim_rate_file(inh_rate, exc_rate, golgi_sync=False):
+    Lems = ET.Element("Lems")
+    # include Inputs.xml
+    include = ET.SubElement(Lems, "Include")
+    include.set("file", "Inputs.xml")
+    # GoC firing rate
+    inh_spikegen = ET.SubElement(Lems, "spikeGenerator")
+    inh_spikegen.set("id", "golgiSpiker")
+    if golgi_sync:
+        if inh_rate == 0:
+            inh_period = 1000000
+        else:
+            inh_period = 1./inh_rate
+        inh_spikegen.set("period", "{0:f} s".format(inh_period))
+    else:
+        inh_spikegen.set("averageRate", "{0:d} per_s".format(inh_rate))
+    # MF firing rate
+    exc_spikegen = ET.SubElement(Lems, "spikeGeneratorPoisson")
+    exc_spikegen.set("id", "mossySpiker")
+    exc_spikegen.set("averageRate", "{0:d} per_s".format(exc_rate))
+    # save to disk
+    with open("InputFrequencies.xml", "w") as freq_file:
+        ET.ElementTree(Lems).write(freq_file)
 
-filename = "spike_count.dat"
+def main():
+    exc_rate_range = np.arange(0, 150, 20)
+    inh_rate_range = [0, 10, 50]
+    out_firing_rates = []
 
-for k, stim_rate in enumerate(stim_rate_range):
-    while True:
-        try:
-            if os.path.isfile(filename):
-                os.remove(filename)
-            proc = subprocess.Popen(['jnml LEMS_rate_IO.xml'], shell=True, stdout=subprocess.PIPE)
+    out_filename = "spike_count.dat"
+
+    for inh_rate in inh_rate_range:
+        out_firing_rates.append(np.zeros(shape=exc_rate_range.shape))
+        for k, exc_rate in enumerate(exc_rate_range):
+            create_stim_rate_file(inh_rate, exc_rate, golgi_sync=True)
+            if os.path.isfile(out_filename):
+                os.remove(out_filename)
+            proc = subprocess.Popen(["jnml LEMS_rate_IO.xml"],
+                                    shell=True,
+                                    stdout=subprocess.PIPE)
             proc.communicate()
-            spike_count = np.loadtxt(filename)[-1,1]
-            print(spike_count)
-            firing_rates[k] = spike_count/10.
-            break
-        except ValueError:
-            print("Error while reading LEMS output file. Retrying...")
-            pass
-print(firing_rates)
+            spike_count = np.loadtxt(out_filename)[-1,1]
+            print(inh_rate, exc_rate, spike_count)
+            out_firing_rates[-1][k] = spike_count/1.
+
+    fig, ax = plt.subplots()
+    for k, inh_rate in enumerate(inh_rate_range):
+        ax.plot(exc_rate_range, out_firing_rates[k],
+                label="inh: {0}Hz".format(inh_rate))
+    ax.legend(loc="best")
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
+
 

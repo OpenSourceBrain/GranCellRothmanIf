@@ -1,5 +1,6 @@
 <Lems>
-  <Target component="modelExample"/>
+  <!-- <Target component="modelExample"/> --> <!-- cell and synaptic model showcase -->
+  <Target component="rateIO"/> <!-- rate I/O analysis -->
 
   <Include file="NeuroMLCoreDimensions.xml"/>
   <Include file="Cells.xml"/>
@@ -9,7 +10,6 @@
   <ComponentType name="spikeRecorder"
 		 extends="baseSynapse"
 		 description="Records the arrival times of incoming spikes, and keeps the count of the total. Very crude implementation, but gets the job done.">
-    <!--<GlobalVariable name="t" dimension="time" />-->
     <Dynamics>
       <StateVariable name="i" exposure="i" dimension="current"/>
       <StateVariable name="spikeCount" dimension="none"/>
@@ -29,17 +29,17 @@
 
   <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
 
-  <!--  <Include file="InputFrequencies.nml"/> -->
-
+  <Include file="InputFrequencies.xml"/>
+  <!---
   <spikeGeneratorPoisson id="mossySpiker" averageRate="20 per_s"/>
   <spikeGeneratorPoisson id="golgiSpiker" averageRate="10 per_s"/>
-
+  -->
 
   <spikeRecorder id="spikeRecorder"/>
 
   <network id="rateIONetwork">
     <population id="mossySpikerPop" component="mossySpiker" size="4"/>
-    <population id="golgiSpikerPop" component="golgiSpiker" size="1"/>
+    <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>
     <population id="GrCs" component="IaF_GrC" size="1"/>
     <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
 
@@ -57,6 +57,9 @@
 
     <!-- golgi to granule -->
     <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[1]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[2]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[3]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
 
     <!-- granule to spike recorder -->
     <synapticConnection from="GrCs[0]" to="secondLayerGrCs[0]" synapse="spikeRecorder" destination="synapses"/>
@@ -83,7 +86,7 @@
 
   </Simulation>
 
-  <Simulation id="rateIO" length="10 s" step="0.025 ms" target="rateIONetwork">
+  <Simulation id="rateIO" length="1 s" step="0.025 ms" target="rateIONetwork">
     <OutputFile id="of0" fileName="spike_count.dat">
       <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
     </OutputFile>
