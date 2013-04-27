@@ -1,0 +1,59 @@
+<Lems>
+
+  <Target component="voltageSweep"/>
+  <!--Simulate a voltage clamp sweep on a dummy cell to analyse the
+       behavior of the blocking mechanism. Save voltage and blockage
+       factor to external files for further analysis.-->
+
+  <Include file="NeuroMLCoreDimensions.xml"/>
+  <Include file="Cells.xml"/>
+  <Include file="Networks.xml"/>
+  <Include file="Simulation.xml"/>
+
+  <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+  <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
+
+  <Dimension name="voltage_per_time" m="1" l="2" t="-4" i="-1"/>
+  <Unit symbol="mV_per_s" dimension="voltage_per_time" power="-3"/>
+
+  <ComponentType name="voltageSweepCell"
+		 extends="baseCellMembPot">
+    <Parameter name="initialVoltage" dimension="voltage"/>
+    <Parameter name="voltageDerivative" dimension="voltage_per_time"/>
+    <Attachments name="synapses" type="basePointCurrent"/>
+    <Dynamics>
+      <StateVariable name="v" dimension="voltage" exposure="v"/>
+      <TimeDerivative variable="v" value="voltageDerivative"/>
+      <OnStart>
+	<StateAssignment variable="v" value="initialVoltage"/>
+      </OnStart>
+    </Dynamics>
+  </ComponentType>
+
+  <spikeArray id="spikes">
+    <spike id="0" time="10 ms"/>
+  </spikeArray>
+
+  <voltageSweepCell id="sweepCell" initialVoltage="-150 mV" voltageDerivative="100 mV_per_s"/>
+
+  <network id="voltageSweepNetwork">
+    <population id="sweepCellPop" component="sweepCell" size="1"/>
+    <population id="spikeArrayPop" component="spikes" size="1"/>
+
+    <synapticConnection from="spikeArrayPop[0]" to="sweepCellPop[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+  </network>
+
+  <Simulation id="voltageSweep" length="3 s" step = "0.025 ms" target="voltageSweepNetwork">
+    <Display id="voltage" title="Voltage" timeScale="1ms" xmin="-10" xmax="3020" ymin="-151.0" ymax="151.0">
+      <Line id="V" timeScale="1ms" quantity="sweepCellPop[0]/v" scale="1 mV" color="#000000"/>
+    </Display>
+    <Display id="blockFactor" title="Blockage factor" timeScale="1ms" xmin="-10" xmax="3020" ymin="0" ymax="1">
+      <Line id="blockFactor" timeScale="1ms" quantity="sweepCellPop[0]/RothmanMFToGrCNMDA/blockFactor" scale="1" color="#4000FF"/>
+    </Display>
+    <OutputFile id="of0" fileName="blockFactorVSVoltage.dat">
+      <OutputColumn id="v" quantity="sweepCellPop[0]/v"/>
+      <OutputColumn id="b" quantity="sweepCellPop[0]/RothmanMFToGrCNMDA/blockFactor"/>
+    </OutputFile>
+  </Simulation>
+
+</Lems>
