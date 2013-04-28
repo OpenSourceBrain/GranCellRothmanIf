@@ -15,7 +15,7 @@
 
     <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
     <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
-
+    <Include file="../../cellMechanisms/IaF_GrC/IaF_GrC.nml"/>
 
     <ComponentType name="dummyBlock"
 		   extends="baseBlock">
@@ -40,8 +40,6 @@
 		    tauRec="236.1 ms" />
       <blockMechanism type="dummyBlock"/>
     </TriExpBlockStpSynapse>
-
-    <iafRefCell id="IaF_GrC" leakReversal="-75mV" leakConductance="1.498nS" thresh="-40mV" reset="-63mV" C="3.22pF" refract="2ms"/>
 
     <spikeArray id="spikes">
       <spike id="0" time="83.47 ms"/>
