@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 http://neuroml.svn.sourceforge.net/viewvc/neuroml/NeuroML2/Schemas/NeuroML2/NeuroML_v2beta.xsd" id="RothmanMFToGrCNMDA">
 
+  <notes>NeuroML 2 file containing a single synapse.</notes>
+
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
+
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/Blocks.xml"/>
+
+  <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA"
+			 erev="0 mV"
+			 directAmp1="17.00 nS"
+			 directAmp2="2.645 nS"
+			 directTauRise="0.8647 ms"
+			 directTauDecay1="13.52 ms"
+			 directTauDecay2="121.9 ms">
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.03220"
+		  tauFac="6.394 ms"
+		  tauRec="236.1 ms" />
+    <blockMechanism type="RothmanBlock"
+		    species="mg"
+		    z="2"
+		    T="308.15 K"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
     <notes>
-      NMDAR-mediated synapse between mossy fibre and cerebellar granule cell. Short term plasticity and waveform shapes (ie relative amplitudes of exponential factors) are modeled on data published in Rothman2009; absolute peak amplitude is taken from Schwartz2012.
+      NMDAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Short term plasticity and waveform shapes (ie
+      relative amplitudes of exponential factors) are modeled on data
+      published in Rothman2009; absolute peak amplitude is taken from
+      Schwartz2012.
     </notes>
-
-    <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
-<Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/RothmanBlock.xml"/>
-
-    <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA"
-			   erev="0 mV"
-			   directAmp1="17.00 nS"
-			   directAmp2="2.645 nS"
-			   directTauRise="0.8647 ms"
-			   directTauDecay1="13.52 ms"
-			   directTauDecay2="121.9 ms">
-      <stpMechanism type="tsodyksMarkramDepFacMechanism"
-		    initReleaseProb="0.03220"
-		    tauFac="6.394 ms"
-		    tauRec="236.1 ms" />
-      <blockMechanism type="RothmanBlock"
-		      species="mg"
-		      z="2"
-		      T="308.15 K"
-		      blockConcentration="1 mM"
-		      deltaBind="0.35"
-		      deltaPerm="0.53"
-		      C1="2.07 mM"
-		      C2="0.015 mM"/>
-    </TriExpBlockStpSynapse>
+  </TriExpBlockStpSynapse>
 
 </neuroml>
