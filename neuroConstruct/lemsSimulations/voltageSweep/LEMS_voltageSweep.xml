@@ -30,6 +30,30 @@
     </Dynamics>
   </ComponentType>
 
+  <ComponentType name="dummyStpMechanism"
+		 extends="stpMechanism">
+    <Dynamics>
+      <StateVariable name="stpFactor" dimension="none" exposure="stpFactor"/>
+      <OnStart>
+	<StateAssignment variable="stpFactor" value="1"/>
+      </OnStart>
+    </Dynamics>
+  </ComponentType>
+
+  <TriExpBlockStpSynapse id="DynamicClampWardNMDA"
+			 erev="0 mV"
+			 directAmp1="0.0710 nS"
+			 directAmp2="0.05257 nS"
+			 directTauRise="1.035 ms"
+			 directTauDecay1="8.113 ms"
+			 directTauDecay2="37.02 ms">
+    <stpMechanism type="dummyStpMechanism"/>
+    <blockMechanism type="voltageDepFermiBlock"
+		    voltageScale="22.4 mV"
+		    voltageHalfBlock="-12.8 mV"/>
+  </TriExpBlockStpSynapse>
+
+
   <spikeArray id="spikes">
     <spike id="0" time="10 ms"/>
   </spikeArray>
@@ -37,22 +61,26 @@
   <voltageSweepCell id="sweepCell" initialVoltage="-150 mV" voltageDerivative="100 mV_per_s"/>
 
   <network id="voltageSweepNetwork">
-    <population id="sweepCellPop" component="sweepCell" size="1"/>
+    <population id="sweepCellPop1" component="sweepCell" size="1"/>
+    <population id="sweepCellPop2" component="sweepCell" size="1"/>
     <population id="spikeArrayPop" component="spikes" size="1"/>
 
-    <synapticConnection from="spikeArrayPop[0]" to="sweepCellPop[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="spikeArrayPop[0]" to="sweepCellPop1[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="spikeArrayPop[0]" to="sweepCellPop2[0]" synapse="DynamicClampWardNMDA" destination="synapses"/>
   </network>
 
   <Simulation id="voltageSweep" length="3 s" step = "0.025 ms" target="voltageSweepNetwork">
     <Display id="voltage" title="Voltage" timeScale="1ms" xmin="-10" xmax="3020" ymin="-151.0" ymax="151.0">
-      <Line id="V" timeScale="1ms" quantity="sweepCellPop[0]/v" scale="1 mV" color="#000000"/>
+      <Line id="V" timeScale="1ms" quantity="sweepCellPop1[0]/v" scale="1 mV" color="#000000"/>
     </Display>
     <Display id="blockFactor" title="Blockage factor" timeScale="1ms" xmin="-10" xmax="3020" ymin="0" ymax="1">
-      <Line id="blockFactor" timeScale="1ms" quantity="sweepCellPop[0]/RothmanMFToGrCNMDA/blockFactor" scale="1" color="#4000FF"/>
+      <Line id="blockFactorRothman" timeScale="1ms" quantity="sweepCellPop1[0]/RothmanMFToGrCNMDA/blockFactor" scale="1" color="#4000FF"/>
+      <Line id="blockFactorWard" timeScale="1ms" quantity="sweepCellPop2[0]/DynamicClampWardNMDA/blockFactor" scale="1" color="#00BFFF"/>
     </Display>
     <OutputFile id="of0" fileName="blockFactorVSVoltage.dat">
-      <OutputColumn id="v" quantity="sweepCellPop[0]/v"/>
-      <OutputColumn id="b" quantity="sweepCellPop[0]/RothmanMFToGrCNMDA/blockFactor"/>
+      <OutputColumn id="v" quantity="sweepCellPop1[0]/v"/>
+      <OutputColumn id="bR" quantity="sweepCellPop1[0]/RothmanMFToGrCNMDA/blockFactor"/>
+      <OutputColumn id="bW" quantity="sweepCellPop2[0]/DynamicClampWardNMDA/blockFactor"/>
     </OutputFile>
   </Simulation>
 
