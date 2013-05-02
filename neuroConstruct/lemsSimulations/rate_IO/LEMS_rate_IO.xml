@@ -1,5 +1,5 @@
 <Lems>
-  <!-- <Target component="modelExample"/> --> <!-- cell and synaptic model showcase -->
+  <!--<Target component="modelExample"/>--> <!-- cell and synaptic model showcase -->
   <Target component="rateIO"/> <!-- rate I/O analysis -->
 
   <Include file="NeuroMLCoreDimensions.xml"/>
@@ -23,6 +23,38 @@
     </Dynamics>
   </ComponentType>
 
+  <ComponentType name="spikeGeneratorRefPoisson"
+		 extends="spikeGeneratorPoisson"
+		 description="Generator of spikes whose ISI is distributed according to an exponential pdf with average 1/_averageRate, truncated from below at _minimumISI">
+    <Parameter name="minimumISI" dimension="time"/>
+    <Dynamics>
+      <StateVariable name="tsince" dimension="time" exposure="tsince"/>
+      <StateVariable name="isi" dimension="time"/>
+
+      <OnStart>
+	<StateAssignment variable="tsince" value="0"/>
+	<StateAssignment variable="isi" value="- averageIsi * ln(1 - random(1))"/>
+      </OnStart>
+
+      <Regime name="refractory">
+	<TimeDerivative variable="tsince" value="1"/>
+	<OnCondition test="tsince .geq. minimumISI">
+	  <Transition regime="integrating" />
+	</OnCondition>
+      </Regime>
+
+      <Regime name="integrating" initial="true">
+	<TimeDerivative variable="tsince" value="1"/>
+	<OnCondition test="tsince .geq. isi">
+	  <StateAssignment variable="tsince" value="0"/>
+	  <StateAssignment variable="isi" value="- averageIsi * ln(1 - random(1))"/>
+	  <EventOut port="spike"/>
+	  <Transition regime="refractory"/>
+	</OnCondition>
+      </Regime>
+    </Dynamics>
+  </ComponentType>
+
   <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
   <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
   <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
@@ -41,7 +73,7 @@
   <network id="rateIONetwork">
     <population id="mossySpikerPop" component="mossySpiker" size="4"/>
     <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>
-    <population id="GrCs" component="IaF_GrC" size="1"/>
+    <population id="GrCs" component="IaF_GrC_156" size="1"/>
     <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
 
     <!-- mossy to granule AMPA -->
@@ -87,7 +119,7 @@
 
   </Simulation>
 
-  <Simulation id="rateIO" length="1 s" step="0.025 ms" target="rateIONetwork">
+  <Simulation id="rateIO" length="10 s" step="0.025 ms" target="rateIONetwork">
     <OutputFile id="of0" fileName="spike_count.dat">
       <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
     </OutputFile>
