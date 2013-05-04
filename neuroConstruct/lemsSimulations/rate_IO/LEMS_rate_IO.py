@@ -32,15 +32,13 @@ def create_stim_rate_file(inh_rate, exc_rate, golgi_sync=False):
         ET.ElementTree(Lems).write(freq_file)
 
 def main():
-    jason_stim_range = np.array([30,60,90,120,150,180,210,240,300,360,420,480,540,600],
-                                dtype=np.float)/4.
-    jason_rates_156 = np.array([1.95918 ,9.89796, 30.4286, 51.6735,
-                                87.8163, 121.86, 165.324, 197.594, 258.538,
-                                296.905, 328.778, 351.688, 368.357, 377])
-    exc_rate_range = np.arange(0, 150, 20)
+    jason_stim_range = np.arange(60, 660, 60)/4
+    jason_rates_156 = np.array([0.0, 0.7755102040816326, 4.55813953488372, 20.65625, 49.46153846153846, 88.9047619047619, 139.2222222222222, 187.6875, 227.64285714285717, 253.7142857142857])
+    exc_rate_range = jason_stim_range
+    print jason_stim_range.shape, jason_rates_156.shape
     inh_rate_range = [0]
     out_firing_rates = []
-    sim_duration = 10. # s
+    sim_duration = 20. # s
 
     out_filename = "spike_count.dat"
 
@@ -59,10 +57,16 @@ def main():
             out_firing_rates[-1][k] = spike_count/sim_duration
 
     fig, ax = plt.subplots()
-    ax.plot(jason_stim_range, jason_rates_156, color="k", label="java")
+    ax.plot(jason_stim_range,
+            jason_rates_156,
+            color="r",
+            linewidth=1.5,
+            label="Jason (java)")
     for k, inh_rate in enumerate(inh_rate_range):
-        ax.plot(exc_rate_range, out_firing_rates[k],
-                label="inh: {0}Hz".format(inh_rate))
+        ax.plot(exc_rate_range,
+                out_firing_rates[k],
+                linewidth=1.5,
+                label="jLEMS tGABA: {0}Hz".format(inh_rate))
     ax.legend(loc="best")
     plt.show()
 

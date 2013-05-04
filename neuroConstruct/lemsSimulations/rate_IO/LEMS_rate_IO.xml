@@ -119,7 +119,7 @@
 
   </Simulation>
 
-  <Simulation id="rateIO" length="10 s" step="0.025 ms" target="rateIONetwork">
+  <Simulation id="rateIO" length="20 s" step="0.025 ms" target="rateIONetwork">
     <OutputFile id="of0" fileName="spike_count.dat">
       <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
     </OutputFile>
