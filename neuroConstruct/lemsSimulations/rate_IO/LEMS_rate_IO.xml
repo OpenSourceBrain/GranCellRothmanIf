@@ -59,6 +59,7 @@
   <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
   <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
   <Include file="../../cellMechanisms/IaF_GrC/IaF_GrC.nml"/>
+  <Include file="../../lemsDefinitions/synapseClones.xml"/>
 
   <iafRefCell id="IaF_GrC_156" leakReversal="-77.23mV" leakConductance="1.717nS" thresh="-40mV" reset="-63mV" C="3.2pF" refract="2ms"/>
 
@@ -77,16 +78,16 @@
     <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
 
     <!-- mossy to granule AMPA -->
-    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA0" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA1" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA2" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA3" destination="synapses"/>
 
     <!-- mossy to granule NMDA -->
-    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
-    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA0" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA1" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA2" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA3" destination="synapses"/>
 
     <!-- golgi to granule -->
     <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
@@ -121,7 +122,15 @@
 
   <Simulation id="rateIO" length="20 s" step="0.025 ms" target="rateIONetwork">
     <OutputFile id="of0" fileName="spike_count.dat">
-      <OutputColumn id="g" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
+      <OutputColumn id="sc" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
+      <OutputColumn id="g0" quantity="GrCs[0]/RothmanMFToGrCAMPA0/g"/>
+      <OutputColumn id="g1" quantity="GrCs[0]/RothmanMFToGrCAMPA1/g"/>
+      <OutputColumn id="g2" quantity="GrCs[0]/RothmanMFToGrCAMPA2/g"/>
+      <OutputColumn id="g3" quantity="GrCs[0]/RothmanMFToGrCAMPA3/g"/>
+      <OutputColumn id="g4" quantity="GrCs[0]/RothmanMFToGrCNMDA0/g"/>
+      <OutputColumn id="g5" quantity="GrCs[0]/RothmanMFToGrCNMDA1/g"/>
+      <OutputColumn id="g6" quantity="GrCs[0]/RothmanMFToGrCNMDA2/g"/>
+      <OutputColumn id="g7" quantity="GrCs[0]/RothmanMFToGrCNMDA3/g"/>
     </OutputFile>
   </Simulation>
 

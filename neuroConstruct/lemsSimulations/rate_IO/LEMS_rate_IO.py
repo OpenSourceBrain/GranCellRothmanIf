@@ -38,12 +38,17 @@ def main():
     print jason_stim_range.shape, jason_rates_156.shape
     inh_rate_range = [0]
     out_firing_rates = []
+    exc_conductances_AMPA = []
+    exc_conductances_NMDA = []
+
     sim_duration = 20. # s
 
     out_filename = "spike_count.dat"
 
     for inh_rate in inh_rate_range:
         out_firing_rates.append(np.zeros(shape=exc_rate_range.shape))
+        exc_conductances_AMPA.append(np.zeros(shape=exc_rate_range.shape))
+        exc_conductances_NMDA.append(np.zeros(shape=exc_rate_range.shape))
         for k, exc_rate in enumerate(exc_rate_range):
             create_stim_rate_file(inh_rate, exc_rate, golgi_sync=True)
             if os.path.isfile(out_filename):
@@ -52,9 +57,16 @@ def main():
                                     shell=True,
                                     stdout=subprocess.PIPE)
             proc.communicate()
-            spike_count = np.loadtxt(out_filename)[-1,1]
-            print(inh_rate, exc_rate, spike_count)
-            out_firing_rates[-1][k] = spike_count/sim_duration
+            sim_data = np.loadtxt(out_filename)
+            spike_count = sim_data[-1,1]
+            exc_cond_AMPA = 4 * sim_data[:,2:6].mean()
+            exc_cond_NMDA = 4 * sim_data[:,6:].mean()
+
+            out_rate = spike_count/sim_duration
+            print(inh_rate, exc_rate, out_rate)
+            out_firing_rates[-1][k] = out_rate
+            exc_conductances_AMPA[-1][k] = exc_cond_AMPA * 1e9
+            exc_conductances_NMDA[-1][k] = exc_cond_NMDA * 1e9
 
     fig, ax = plt.subplots()
     ax.plot(jason_stim_range,
@@ -68,6 +80,32 @@ def main():
                 linewidth=1.5,
                 label="jLEMS tGABA: {0}Hz".format(inh_rate))
     ax.legend(loc="best")
+
+
+    cond_fig, cond_ax = plt.subplots()
+    ratio_ax = cond_ax.twinx()
+    ln_AMPA = cond_ax.plot(exc_rate_range,
+                           exc_conductances_AMPA[0],
+                           linewidth=1.5,
+                           color="r",
+                           label="AMPA")
+    ln_NMDA = cond_ax.plot(exc_rate_range,
+                           exc_conductances_NMDA[0],
+                           linewidth=1.5,
+                           color="#5F04B4",
+                           label="NMDA")
+    ln_ratio = ratio_ax.plot(exc_rate_range,
+                             exc_conductances_NMDA[0]/exc_conductances_AMPA[0],
+                             linewidth=1.5,
+                             color="k",
+                             label="NMDA/AMPA ratio")
+    lines = ln_AMPA + ln_NMDA + ln_ratio
+    labels = [ln.get_label() for ln in lines]
+    cond_ax.legend(lines, labels, loc="best")
+    cond_ax.set_xlabel("Input rate (Hz) (single MF)")
+    cond_ax.set_ylabel("Time-averaged conductance (nS)")
+    ratio_ax.set_ylabel("NMDA to AMPA conductance ratio")
+
     plt.show()
 
 

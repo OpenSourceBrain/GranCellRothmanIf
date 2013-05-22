@@ -1,0 +1,248 @@
+<Lems>
+
+  <!-- "clone" definitions to be used when one needs to interact with
+       specific components in a simulation in a way that's not
+       supported by LEMS. For example, these are useful to have 4
+       AMPA+NMDA synapses on a single GrC in and to be abl to measure
+       their conductances independently during a simulation. -->
+
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpDirectTetraExpSpilloverStpSynapse.xml"/>
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/Blocks.xml"/>
+
+
+  <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA0"
+					   erev="0 mV"
+					   directAmp1="3.724 nS"
+					   directAmp2="0.3033 nS"
+					   directTauRise="0.3274 ms"
+					   directTauDecay1="0.3351 ms"
+					   directTauDecay2="1.651 ms"
+					   spilloverAmp1="0.2487 nS"
+					   spilloverAmp2="0.2799 nS"
+					   spilloverAmp3="0.1268 nS"
+					   spilloverTauRise="0.5548 ms"
+					   spilloverTauDecay1="0.4 ms"
+					   spilloverTauDecay2="4.899 ms"
+					   spilloverTauDecay3="43.10 ms">
+    <directStpMechanism type="tsodyksMarkramDepMechanism"
+			initReleaseProb="0.1249"
+			tauRec="131 ms" />
+    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+			   initReleaseProb="0.2792"
+			   tauRec="14.85 ms" />
+    <notes>
+      AMPAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Similarly to Schwartz2012, short term plasticity
+      and waveform shapes (ie relative amplitudes of exponential
+      factors) are modeled on data published in Rothman2009; absolute
+      peak amplitude is taken from Sargent2005.
+    </notes>
+  </TriExpDirectTetraExpSpilloverStpSynapse>
+
+  <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA1"
+					   erev="0 mV"
+					   directAmp1="3.724 nS"
+					   directAmp2="0.3033 nS"
+					   directTauRise="0.3274 ms"
+					   directTauDecay1="0.3351 ms"
+					   directTauDecay2="1.651 ms"
+					   spilloverAmp1="0.2487 nS"
+					   spilloverAmp2="0.2799 nS"
+					   spilloverAmp3="0.1268 nS"
+					   spilloverTauRise="0.5548 ms"
+					   spilloverTauDecay1="0.4 ms"
+					   spilloverTauDecay2="4.899 ms"
+					   spilloverTauDecay3="43.10 ms">
+    <directStpMechanism type="tsodyksMarkramDepMechanism"
+			initReleaseProb="0.1249"
+			tauRec="131 ms" />
+    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+			   initReleaseProb="0.2792"
+			   tauRec="14.85 ms" />
+    <notes>
+      AMPAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Similarly to Schwartz2012, short term plasticity
+      and waveform shapes (ie relative amplitudes of exponential
+      factors) are modeled on data published in Rothman2009; absolute
+      peak amplitude is taken from Sargent2005.
+    </notes>
+  </TriExpDirectTetraExpSpilloverStpSynapse>
+
+  <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA2"
+					   erev="0 mV"
+					   directAmp1="3.724 nS"
+					   directAmp2="0.3033 nS"
+					   directTauRise="0.3274 ms"
+					   directTauDecay1="0.3351 ms"
+					   directTauDecay2="1.651 ms"
+					   spilloverAmp1="0.2487 nS"
+					   spilloverAmp2="0.2799 nS"
+					   spilloverAmp3="0.1268 nS"
+					   spilloverTauRise="0.5548 ms"
+					   spilloverTauDecay1="0.4 ms"
+					   spilloverTauDecay2="4.899 ms"
+					   spilloverTauDecay3="43.10 ms">
+    <directStpMechanism type="tsodyksMarkramDepMechanism"
+			initReleaseProb="0.1249"
+			tauRec="131 ms" />
+    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+			   initReleaseProb="0.2792"
+			   tauRec="14.85 ms" />
+    <notes>
+      AMPAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Similarly to Schwartz2012, short term plasticity
+      and waveform shapes (ie relative amplitudes of exponential
+      factors) are modeled on data published in Rothman2009; absolute
+      peak amplitude is taken from Sargent2005.
+    </notes>
+  </TriExpDirectTetraExpSpilloverStpSynapse>
+
+  <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA3"
+					   erev="0 mV"
+					   directAmp1="3.724 nS"
+					   directAmp2="0.3033 nS"
+					   directTauRise="0.3274 ms"
+					   directTauDecay1="0.3351 ms"
+					   directTauDecay2="1.651 ms"
+					   spilloverAmp1="0.2487 nS"
+					   spilloverAmp2="0.2799 nS"
+					   spilloverAmp3="0.1268 nS"
+					   spilloverTauRise="0.5548 ms"
+					   spilloverTauDecay1="0.4 ms"
+					   spilloverTauDecay2="4.899 ms"
+					   spilloverTauDecay3="43.10 ms">
+    <directStpMechanism type="tsodyksMarkramDepMechanism"
+			initReleaseProb="0.1249"
+			tauRec="131 ms" />
+    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+			   initReleaseProb="0.2792"
+			   tauRec="14.85 ms" />
+    <notes>
+      AMPAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Similarly to Schwartz2012, short term plasticity
+      and waveform shapes (ie relative amplitudes of exponential
+      factors) are modeled on data published in Rothman2009; absolute
+      peak amplitude is taken from Sargent2005.
+    </notes>
+  </TriExpDirectTetraExpSpilloverStpSynapse>
+
+  <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA0"
+			 erev="0 mV"
+			 directAmp1="17.00 nS"
+			 directAmp2="2.645 nS"
+			 directTauRise="0.8647 ms"
+			 directTauDecay1="13.52 ms"
+			 directTauDecay2="121.9 ms">
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.03220"
+		  tauFac="6.394 ms"
+		  tauRec="236.1 ms" />
+    <blockMechanism type="RothmanBlock"
+		    species="mg"
+		    z="2"
+		    T="308.15 K"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
+    <notes>
+      NMDAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Short term plasticity and waveform shapes (ie
+      relative amplitudes of exponential factors) are modeled on data
+      published in Rothman2009; absolute peak amplitude is taken from
+      Schwartz2012.
+    </notes>
+  </TriExpBlockStpSynapse>
+
+  <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA1"
+			 erev="0 mV"
+			 directAmp1="17.00 nS"
+			 directAmp2="2.645 nS"
+			 directTauRise="0.8647 ms"
+			 directTauDecay1="13.52 ms"
+			 directTauDecay2="121.9 ms">
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.03220"
+		  tauFac="6.394 ms"
+		  tauRec="236.1 ms" />
+    <blockMechanism type="RothmanBlock"
+		    species="mg"
+		    z="2"
+		    T="308.15 K"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
+    <notes>
+      NMDAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Short term plasticity and waveform shapes (ie
+      relative amplitudes of exponential factors) are modeled on data
+      published in Rothman2009; absolute peak amplitude is taken from
+      Schwartz2012.
+    </notes>
+  </TriExpBlockStpSynapse>
+
+  <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA2"
+			 erev="0 mV"
+			 directAmp1="17.00 nS"
+			 directAmp2="2.645 nS"
+			 directTauRise="0.8647 ms"
+			 directTauDecay1="13.52 ms"
+			 directTauDecay2="121.9 ms">
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.03220"
+		  tauFac="6.394 ms"
+		  tauRec="236.1 ms" />
+    <blockMechanism type="RothmanBlock"
+		    species="mg"
+		    z="2"
+		    T="308.15 K"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
+    <notes>
+      NMDAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Short term plasticity and waveform shapes (ie
+      relative amplitudes of exponential factors) are modeled on data
+      published in Rothman2009; absolute peak amplitude is taken from
+      Schwartz2012.
+    </notes>
+  </TriExpBlockStpSynapse>
+
+  <TriExpBlockStpSynapse id="RothmanMFToGrCNMDA3"
+			 erev="0 mV"
+			 directAmp1="17.00 nS"
+			 directAmp2="2.645 nS"
+			 directTauRise="0.8647 ms"
+			 directTauDecay1="13.52 ms"
+			 directTauDecay2="121.9 ms">
+    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+		  initReleaseProb="0.03220"
+		  tauFac="6.394 ms"
+		  tauRec="236.1 ms" />
+    <blockMechanism type="RothmanBlock"
+		    species="mg"
+		    z="2"
+		    T="308.15 K"
+		    blockConcentration="1 mM"
+		    deltaBind="0.35"
+		    deltaPerm="0.53"
+		    C1="2.07 mM"
+		    C2="0.015 mM"/>
+    <notes>
+      NMDAR-mediated synapse between mossy fibre and cerebellar
+      granule cell. Short term plasticity and waveform shapes (ie
+      relative amplitudes of exponential factors) are modeled on data
+      published in Rothman2009; absolute peak amplitude is taken from
+      Schwartz2012.
+    </notes>
+  </TriExpBlockStpSynapse>
+
+
+
+</Lems>
