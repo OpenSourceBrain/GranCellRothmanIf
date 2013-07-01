@@ -16,7 +16,5 @@ Note the following:
 <entry key="Mechanism Type">NeuroML 2 synapse</entry>
 <entry key="Implementation method">NeuroML 2 Component</entry>
 <entry key="ChannelML file">RothmanMFToGrCNMDA.nml</entry>
-<entry key="Description">
-      NMDAR-mediated synapse between mossy fibre and cerebellar granule cell. Short term plasticity and waveform shapes (ie relative amplitudes of exponential factors) are modeled on data published in Rothman2009; absolute peak amplitude is taken from Schwartz2012.
-    </entry>
+<entry key="Description">NeuroML 2 file containing a single synapse.</entry>
 </properties>

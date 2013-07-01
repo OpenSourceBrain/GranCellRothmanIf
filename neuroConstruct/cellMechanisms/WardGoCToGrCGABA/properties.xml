@@ -16,16 +16,5 @@ Note the following:
 <entry key="Mechanism Type">NeuroML 2 synapse</entry>
 <entry key="Implementation method">NeuroML 2 Component</entry>
 <entry key="ChannelML file">WardGoCToGrCGABA.nml</entry>
-<entry key="Description">
-    GABAR-mediated synapse between cerebellar Golgi and granule
-    cell as described in Ward, D. R. Golgi cell mediated
-    inhibition in the cerebellar granule cell layer. PhD thesis,
-    University College London, 2012. Average over direct and
-    spillover-only connections.
-
-    Note that, because of how the STP model is defined, the
-    'gbase' parameter corresponds to the experimentally measured
-    'amplitude' divided by 'initReleaseProb'
-    (0.3944nS=0.27nS/0.6846).
-  </entry>
+<entry key="Description">NeuroML 2 file containing a single synapse.</entry>
 </properties>

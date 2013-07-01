@@ -4,7 +4,7 @@
 <comment>
 Properties associated with the Cell Mechanism which allow it to be loaded into neuroConstruct.
 
-Note the following:
+Note the following: 
    The Cell Mechanism name should not contain spaces and should match the name of the directory it's in
    The name and description here will be replaced by the corresponding values in a ChannelML file if found
    The filenames for the mappings are relative to the cellMechanism/(cellMechInstanceName) directory
@@ -16,5 +16,5 @@ Note the following:
 <entry key="Mechanism Type">NeuroML 2 Abstract cell</entry>
 <entry key="Implementation method">NeuroML 2 Component</entry>
 <entry key="ChannelML file">IaF_GrC.nml</entry>
-<entry key="Description">NeuroML 2 file containing an abstract cell definition</entry>
+<entry key="Description">NeuroML 2 file containing an abstract cell definition.</entry>
 </properties>
