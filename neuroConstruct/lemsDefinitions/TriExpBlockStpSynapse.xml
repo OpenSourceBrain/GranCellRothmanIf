@@ -1,4 +1,8 @@
-<Lems>
+<Lems xmlns="http://www.neuroml.org/lems/0.7"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.neuroml.org/lems/0.7
+			  ../../LEMS/Schemas/LEMS/LEMS_v0.7.xsd">
+
   <Include file="NeuroMLCoreDimensions.xml"/>
   <Include file="Synapses.xml"/>
 
@@ -7,7 +11,7 @@
        description="Blocking synapse with short term plasticity and triexponential basic waveform (one rise time, two decay times).">
       <Parameter name="erev" dimension="voltage" description="Reversal potential of the synapse"/>
       <Exposure name="g" dimension="conductance" description="Time varying conductance through the synapse"/>
-      <Child name="stpMechanism" type="stpMechanism"/>
+      <Child name="plasticityMechanism" type="basePlasticityMechanism"/>
       <Child name="blockMechanism" type="baseBlock"/>
 
       <EventPort name="relay" direction="out" description="Used to relay incoming spikes to child plasticity mechanism"/>
@@ -41,7 +45,7 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directPlasticityFactor" dimension="none" select="stpMechanism/stpFactor" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" select="plasticityMechanism/plasticityFactor" />
 
 	<OnStart>
 	  <!-- DIRECT -->

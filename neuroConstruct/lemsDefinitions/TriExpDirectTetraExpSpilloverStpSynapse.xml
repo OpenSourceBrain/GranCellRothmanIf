@@ -1,4 +1,7 @@
-<Lems>
+<Lems xmlns="http://www.neuroml.org/lems/0.7"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.neuroml.org/lems/0.7
+			  ../../LEMS/Schemas/LEMS/LEMS_v0.7.xsd">
 
   <Include file="NeuroMLCoreDimensions.xml"/>
   <Include file="Synapses.xml"/>
@@ -20,7 +23,7 @@
       <Parameter name="directTauDecay1" dimension="time"/>
       <Parameter name="directTauDecay2" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="directStpMechanism" type="stpMechanism"/>
+      <Child name="directPlasticityMechanism" type="basePlasticityMechanism"/>
 
       <!-- SPILLOVER -->
       <!-- waveform shape parameters -->
@@ -32,7 +35,7 @@
       <Parameter name="spilloverTauDecay2" dimension="time"/>
       <Parameter name="spilloverTauDecay3" dimension="time"/>
       <!-- short term plasticity parameters -->
-      <Child name="spilloverStpMechanism" type="stpMechanism"/>
+      <Child name="spilloverPlasticityMechanism" type="basePlasticityMechanism"/>
 
       <Dynamics>
 	<DerivedVariable name="g" dimension="conductance" exposure="g" value="directAmp1 * (directB1 - directA1) + directAmp2 * (directB2 - directA2) + spilloverAmp1 * (spilloverB1 - spilloverA1) + spilloverAmp2 * (spilloverB2 - spilloverA2) + spilloverAmp3 * (spilloverB3 - spilloverA3)"/>
@@ -54,7 +57,7 @@
 	<TimeDerivative variable="directB1" value="-directB1 / directTauDecay1" />
 	<TimeDerivative variable="directB2" value="-directB2 / directTauDecay2" />
 
-	<DerivedVariable name="directPlasticityFactor" dimension="none" select="directStpMechanism/stpFactor" />
+	<DerivedVariable name="directPlasticityFactor" dimension="none" select="directPlasticityMechanism/plasticityFactor" />
 
 	<!-- SPILLOVER -->
 	<StateVariable name="spilloverA1" dimension="none"/>
@@ -78,7 +81,7 @@
 	<TimeDerivative variable="spilloverB2" value="-spilloverB2 / spilloverTauDecay2" />
 	<TimeDerivative variable="spilloverB3" value="-spilloverB3 / spilloverTauDecay3" />
 
-	<DerivedVariable name="spilloverPlasticityFactor" dimension="none" select="spilloverStpMechanism/stpFactor" />
+	<DerivedVariable name="spilloverPlasticityFactor" dimension="none" select="spilloverPlasticityMechanism/plasticityFactor" />
 
 	<OnStart>
 	  <!-- DIRECT -->

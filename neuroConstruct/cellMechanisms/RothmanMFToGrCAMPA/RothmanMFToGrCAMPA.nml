@@ -19,12 +19,12 @@
 					   spilloverTauDecay1="0.4 ms"
 					   spilloverTauDecay2="4.899 ms"
 					   spilloverTauDecay3="43.10 ms">
-    <directStpMechanism type="tsodyksMarkramDepMechanism"
-			initReleaseProb="0.1249"
-			tauRec="131 ms" />
-    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
-			   initReleaseProb="0.2792"
-			   tauRec="14.85 ms" />
+    <directPlasticityMechanism type="tsodyksMarkramDepMechanism"
+			       initReleaseProb="0.1249"
+			       tauRec="131 ms" />
+    <spilloverPlasticityMechanism type="tsodyksMarkramDepMechanism"
+				  initReleaseProb="0.2792"
+				  tauRec="14.85 ms" />
     <notes>
       AMPAR-mediated synapse between mossy fibre and cerebellar
       granule cell. Similarly to Schwartz2012, short term plasticity

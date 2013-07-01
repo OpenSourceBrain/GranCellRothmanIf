@@ -60,6 +60,14 @@
                 <net:potential_syn_loc synapse_type="FastSynInput">
                     <net:group>all</net:group>
                 </net:potential_syn_loc>
+            
+                <net:potential_syn_loc synapse_type="RothmanMFToGrCAMPA">
+                    <net:group>all</net:group>
+                </net:potential_syn_loc>
+            
+                <net:potential_syn_loc synapse_type="RothmanMFToGrCNMDA">
+                    <net:group>all</net:group>
+                </net:potential_syn_loc>
             </connectivity>
 
         </cell>
