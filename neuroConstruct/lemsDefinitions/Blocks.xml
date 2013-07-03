@@ -1,21 +1,24 @@
-<Lems>
+<Lems xmlns="http://www.neuroml.org/lems/0.7.1"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.neuroml.org/lems/0.7.1
+			  ../../LEMS/Schemas/LEMS/LEMS_v0.7.1.xsd">
+
   <Include file="NeuroMLCoreDimensions.xml"/>
   <Include file="Synapses.xml"/>
 
-
-  <ComponentType name="dummyBlock"
-		 extends="baseBlock">
+  <ComponentType name="dummyBlockMechanism"
+		 extends="baseBlockMechanism">
     <Dynamics>
-      <StateVariable name="scaling" dimension="none" exposure="scaling"/>
+      <StateVariable name="blockFactor" dimension="none" exposure="blockFactor"/>
       <OnStart>
-	<StateAssignment variable="scaling" value="1"/>
+	<StateAssignment variable="blockFactor" value="1"/>
       </OnStart>
     </Dynamics>
   </ComponentType>
 
 
-  <ComponentType name="voltageDepFermiBlock"
-		 extends="baseBlock"
+  <ComponentType name="voltageDepFermiBlockMechanism"
+		 extends="baseBlockMechanism"
 		 description="Synaptic blocking mechanism which varies with a Fermi function-like dependence on the membrane voltage, e.g. in NMDA receptor mediated synapses">
 
     <Parameter name="voltageScale" dimension="voltage"/>
@@ -24,21 +27,16 @@
     <Requirement name="v" dimension="voltage"/>
 
     <Dynamics>
-      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="1/(1 + exp(-1 * ((v - voltageHalfBlock)/ voltageScale)))" />
+      <DerivedVariable name="blockFactor" dimension="none" exposure="blockFactor" value="1/(1 + exp(-1 * ((v - voltageHalfBlock)/ voltageScale)))" />
     </Dynamics>
 
   </ComponentType>
 
 
-  <ComponentType name="RothmanBlock"
-    extends="baseBlock"
-    description="Synaptic blockage model used for the NMDA-mediated synapse in Schwartz2012.">
-    <Text name="species"/>
-
-    <Requirement name="v" dimension="voltage"/>
-
-    <Constant name="faradayConstant" dimension="charge_per_mole" value="96485.3365 C_per_mol"/>
-    <Constant name="idealGasConstant" dimension="idealGasConstantDims" value="8.3144621 J_per_K_per_mol"/>
+  <ComponentType name="RothmanBlockMechanism"
+    extends="baseBlockMechanism"
+    description="Synaptic blockage model used for the NMDA-mediated
+		 synapse in Schwartz2012.">
 
     <Parameter name="z" dimension="none"/>
     <Parameter name="T" dimension="temperature"/>
@@ -48,9 +46,18 @@
     <Parameter name="C1" dimension="concentration"/>
     <Parameter name="C2" dimension="concentration"/>
 
+    <Constant name="faradayConstant" dimension="charge_per_mole"
+	      value="96485.3365 C_per_mol"/>
+    <Constant name="idealGasConstant" dimension="idealGasConstantDims"
+	      value="8.3144621 J_per_K_per_mol"/>
+
+    <Requirement name="v" dimension="voltage"/>
+
+    <Text name="species"/>
+
     <Dynamics>
       <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
-      <DerivedVariable name="scaling" dimension="none" exposure="scaling" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(-deltaBind * theta * v))"/>
+      <DerivedVariable name="blockFactor" dimension="none" exposure="blockFactor" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(-deltaBind * theta * v))"/>
     </Dynamics>
   </ComponentType>
 

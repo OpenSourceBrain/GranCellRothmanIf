@@ -18,7 +18,7 @@
 			 initReleaseProb="0.03220"
 			 tauFac="6.394 ms"
 			 tauRec="236.1 ms" />
-    <blockMechanism type="RothmanBlock"
+    <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
 		    T="308.15 K"
