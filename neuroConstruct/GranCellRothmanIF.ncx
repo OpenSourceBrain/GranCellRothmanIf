@@ -453,7 +453,7 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="description">
-      <string>Synaptic input test</string>
+      <string>Sim config to be used from a script for input-output rate analysis (with STP).</string>
      </void>
      <void property="inputs">
       <void method="add">
@@ -461,7 +461,7 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="name">
-      <string>synapse_test</string>
+      <string>rate_IO</string>
      </void>
      <void property="netConns">
       <void method="add">
@@ -475,94 +475,6 @@ part of NeuroML or any standardised XML specification. -->
       <void method="add">
        <string>GrCs_spikes</string>
       </void>
-      <void method="add">
-       <string>GrCs_v</string>
-      </void>
-     </void>
-     <void property="simDuration">
-      <float>1000.0</float>
-     </void>
-    </object>
-   </void>
-   <void method="add">
-    <object class="ucl.physiol.neuroconstruct.project.SimConfig">
-     <void property="cellGroups">
-      <void method="add">
-       <string>GrCs</string>
-      </void>
-      <void method="add">
-       <string>stims</string>
-      </void>
-     </void>
-     <void property="description">
-      <string>Sim config to be used from a script for input-output rate analysis (with STP).</string>
-     </void>
-     <void property="inputs">
-      <void method="add">
-       <string>relay_stim</string>
-      </void>
-     </void>
-     <void property="name">
-      <string>rate_IO</string>
-     </void>
-     <void property="plots">
-      <void method="add">
-       <string>GrCs_spikes</string>
-      </void>
-     </void>
-     <void property="simDuration">
-      <float>1000.0</float>
-     </void>
-    </object>
-   </void>
-   <void method="add">
-    <object class="ucl.physiol.neuroconstruct.project.SimConfig">
-     <void property="cellGroups">
-      <void method="add">
-       <string>GrCs</string>
-      </void>
-      <void method="add">
-       <string>stims</string>
-      </void>
-     </void>
-     <void property="description">
-      <string>Sim config to be used from a script for input/output rate analysis, without short term plasticity.</string>
-     </void>
-     <void property="inputs">
-      <void method="add">
-       <string>relay_stim</string>
-      </void>
-     </void>
-     <void property="name">
-      <string>rate_IO_noSTP</string>
-     </void>
-     <void property="plots">
-      <void method="add">
-       <string>GrCs_spikes</string>
-      </void>
-     </void>
-     <void property="simDuration">
-      <float>1000.0</float>
-     </void>
-    </object>
-   </void>
-   <void method="add">
-    <object class="ucl.physiol.neuroconstruct.project.SimConfig">
-     <void property="cellGroups">
-      <void method="add">
-       <string>stims</string>
-      </void>
-     </void>
-     <void property="description">
-      <string>Rate I/O analysis for NeuroMLv2 port of granule cell model number 156 by Jason Rothman.</string>
-     </void>
-     <void property="inputs">
-      <void method="add">
-       <string>relay_stim</string>
-      </void>
-     </void>
-     <void property="name">
-      <string>rate_IO_156</string>
      </void>
      <void property="simDuration">
       <float>1000.0</float>

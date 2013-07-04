@@ -21,7 +21,7 @@
     <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
-		    T="308.15 K"
+		    T="35 degC"
 		    blockConcentration="1 mM"
 		    deltaBind="0.35"
 		    deltaPerm="0.53"
