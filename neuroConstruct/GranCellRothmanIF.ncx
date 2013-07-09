@@ -250,7 +250,7 @@ part of NeuroML or any standardised XML specification. -->
       <string>*</string>
      </void>
      <void property="graphWindow">
-      <string>GrCs_dummy_v</string>
+      <string>GrCs_v</string>
      </void>
      <void property="maxValue">
       <float>50.0</float>
@@ -258,14 +258,151 @@ part of NeuroML or any standardised XML specification. -->
      <void property="minValue">
       <float>-90.0</float>
      </void>
-     <void property="plotAndOrSave">
-      <string>Plot and save</string>
-     </void>
      <void property="plotReference">
       <string>GrCs_dummy_v</string>
      </void>
      <void property="segmentId">
       <string>0</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_2</string>
+     </void>
+     <void property="maxValue">
+      <float>1.2E-6</float>
+     </void>
+     <void property="minValue">
+      <float>-1.0E-8</float>
+     </void>
+     <void property="plotReference">
+      <string>AMPA_conductance</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_AMPA:RothmanMFToGrCAMPA:SYN_COND</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_2</string>
+     </void>
+     <void property="maxValue">
+      <float>1.2E-6</float>
+     </void>
+     <void property="minValue">
+      <float>-1.0E-8</float>
+     </void>
+     <void property="plotReference">
+      <string>NMDA_conductance</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_NMDA:RothmanMFToGrCNMDA:SYN_COND</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_5</string>
+     </void>
+     <void property="maxValue">
+      <float>1.0</float>
+     </void>
+     <void property="minValue">
+      <float>0.0</float>
+     </void>
+     <void property="plotReference">
+      <string>AMPA_directPlasticityFactor</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_AMPA:RothmanMFToGrCAMPA:directPlasticityMechanism_plasticityFactor</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_5</string>
+     </void>
+     <void property="maxValue">
+      <float>1.0</float>
+     </void>
+     <void property="minValue">
+      <float>0.0</float>
+     </void>
+     <void property="plotReference">
+      <string>AMPA_spilloverPlasticityFactor</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_AMPA:RothmanMFToGrCAMPA:spilloverPlasticityMechanism_plasticityFactor</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_5</string>
+     </void>
+     <void property="maxValue">
+      <float>1.0</float>
+     </void>
+     <void property="minValue">
+      <float>0.0</float>
+     </void>
+     <void property="plotReference">
+      <string>NMDA_spilloverPlasticityFactor</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_NMDA:RothmanMFToGrCNMDA:plasticityMechanism_plasticityFactor</string>
      </void>
     </object>
    </void>
@@ -319,7 +456,7 @@ part of NeuroML or any standardised XML specification. -->
    <float>100.0</float>
   </void>
   <void property="reference">
-   <string>Sim_200</string>
+   <string>Sim_236</string>
   </void>
   <void property="saveCopyGenSimFiles">
    <boolean>true</boolean>
@@ -360,7 +497,7 @@ part of NeuroML or any standardised XML specification. -->
     <object class="ucl.physiol.neuroconstruct.simulation.IClampSettings">
      <void property="amp">
       <void property="fixedNum">
-       <float>0.08</float>
+       <float>0.16</float>
       </void>
      </void>
      <void property="cellGroup">
@@ -414,7 +551,7 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="description">
-      <string>Default simulation configuration: the granule cell is stimulated with four independent (AMPA+NMDA) Poisson spike trains.</string>
+      <string>Default simulation configuration: the granule cell is stimulated with four independent (AMPA+NMDA) Poisson spike trains. NEURON only.</string>
      </void>
      <void property="inputs">
       <void method="add">
@@ -453,7 +590,7 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="description">
-      <string>Sim config to be used from a script for input-output rate analysis (with STP).</string>
+      <string>Sim config to be used from a script for input-output rate analysis (with STP). NEURON only.</string>
      </void>
      <void property="inputs">
       <void method="add">
@@ -544,6 +681,63 @@ part of NeuroML or any standardised XML specification. -->
       </void>
       <void method="add">
        <string>GrCs_v</string>
+      </void>
+     </void>
+     <void property="simDuration">
+      <float>100.0</float>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimConfig">
+     <void property="cellGroups">
+      <void method="add">
+       <string>GrCs</string>
+      </void>
+      <void method="add">
+       <string>GrCs_dummy</string>
+      </void>
+     </void>
+     <void property="description">
+      <string>Simple synaptic transmission with plots of the plasticity scaling factors and of the resulting synaptic conductances. NEURON only.</string>
+     </void>
+     <void property="inputs">
+      <void method="add">
+       <string>GrC_dummy_current_clamp</string>
+      </void>
+     </void>
+     <void property="name">
+      <string>plasticity_test</string>
+     </void>
+     <void property="netConns">
+      <void method="add">
+       <string>dummies_to_GrCs_AMPA</string>
+      </void>
+      <void method="add">
+       <string>dummies_to_GrCs_NMDA</string>
+      </void>
+     </void>
+     <void property="plots">
+      <void method="add">
+       <string>AMPA_conductance</string>
+      </void>
+      <void method="add">
+       <string>AMPA_directPlasticityFactor</string>
+      </void>
+      <void method="add">
+       <string>AMPA_spilloverPlasticityFactor</string>
+      </void>
+      <void method="add">
+       <string>GrCs_dummy_v</string>
+      </void>
+      <void method="add">
+       <string>GrCs_v</string>
+      </void>
+      <void method="add">
+       <string>NMDA_conductance</string>
+      </void>
+      <void method="add">
+       <string>NMDA_spilloverPlasticityFactor</string>
       </void>
      </void>
      <void property="simDuration">
