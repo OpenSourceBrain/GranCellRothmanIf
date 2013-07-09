@@ -1,0 +1,137 @@
+<Lems>
+  <!--<Target component="modelExample"/>--> <!-- cell and synaptic model showcase -->
+  <Target component="rateIO"/> <!-- rate I/O analysis -->
+
+  <Include file="NeuroMLCoreDimensions.xml"/>
+  <Include file="Cells.xml"/>
+  <Include file="Networks.xml"/>
+  <Include file="Simulation.xml"/>
+
+  <ComponentType name="spikeRecorder"
+		 extends="baseSynapse"
+		 description="Records the arrival times of incoming spikes, and keeps the count of the total. Very crude implementation, but gets the job done.">
+    <Dynamics>
+      <StateVariable name="i" exposure="i" dimension="current"/>
+      <StateVariable name="spikeCount" dimension="none"/>
+      <OnEvent port="in">
+	<StateAssignment variable="spikeCount" value="spikeCount + 1"/>
+      </OnEvent>
+      <OnStart>
+	<StateAssignment variable="i" value="0"/>
+	<StateAssignment variable="spikeCount" value="0"/>
+      </OnStart>
+    </Dynamics>
+  </ComponentType>
+
+  <ComponentType name="spikeGeneratorRefPoisson"
+		 extends="spikeGeneratorPoisson"
+		 description="Generator of spikes whose ISI is distributed according to an exponential pdf with average 1/_averageRate, truncated from below at _minimumISI">
+    <Parameter name="minimumISI" dimension="time"/>
+    <Dynamics>
+      <StateVariable name="tsince" dimension="time" exposure="tsince"/>
+      <StateVariable name="isi" dimension="time"/>
+
+      <OnStart>
+	<StateAssignment variable="tsince" value="0"/>
+	<StateAssignment variable="isi" value="- averageIsi * ln(1 - random(1))"/>
+      </OnStart>
+
+      <Regime name="refractory">
+	<TimeDerivative variable="tsince" value="1"/>
+	<OnCondition test="tsince .geq. minimumISI">
+	  <Transition regime="integrating" />
+	</OnCondition>
+      </Regime>
+
+      <Regime name="integrating" initial="true">
+	<TimeDerivative variable="tsince" value="1"/>
+	<OnCondition test="tsince .geq. isi">
+	  <StateAssignment variable="tsince" value="0"/>
+	  <StateAssignment variable="isi" value="- averageIsi * ln(1 - random(1))"/>
+	  <EventOut port="spike"/>
+	  <Transition regime="refractory"/>
+	</OnCondition>
+      </Regime>
+    </Dynamics>
+  </ComponentType>
+
+  <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+  <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
+  <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
+  <Include file="../../cellMechanisms/IaF_GrC/IaF_GrC.nml"/>
+  <Include file="../../lemsDefinitions/synapseClones.xml"/>
+
+  <iafRefCell id="IaF_GrC_156" leakReversal="-77.23mV" leakConductance="1.717nS" thresh="-40mV" reset="-63mV" C="3.2pF" refract="2ms"/>
+
+  <Include file="InputFrequencies.xml"/>
+  <!---
+  <spikeGeneratorPoisson id="mossySpiker" averageRate="20 per_s"/>
+  <spikeGeneratorPoisson id="golgiSpiker" averageRate="10 per_s"/>
+  -->
+
+  <spikeRecorder id="spikeRecorder"/>
+
+  <network id="rateIONetwork">
+    <population id="mossySpikerPop" component="mossySpiker" size="4"/>
+    <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>
+    <population id="GrCs" component="IaF_GrC_156" size="1"/>
+    <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
+
+    <!-- mossy to granule AMPA -->
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA0" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA1" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA2" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCAMPA3" destination="synapses"/>
+
+    <!-- mossy to granule NMDA -->
+    <synapticConnection from="mossySpikerPop[0]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA0" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[1]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA1" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[2]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA2" destination="synapses"/>
+    <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA3" destination="synapses"/>
+
+    <!-- golgi to granule -->
+    <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[1]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[2]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <synapticConnection from="golgiSpikerPop[3]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+
+    <!-- granule to spike recorder -->
+    <synapticConnection from="GrCs[0]" to="secondLayerGrCs[0]" synapse="spikeRecorder" destination="synapses"/>
+  </network>
+
+
+  <Simulation id="modelExample" length="0.5 s" step="0.025 ms" target="rateIONetwork">
+    <Display id="GrCs_v" title="GrCs, VOLTAGE" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-80.0" ymax="-35.0">
+      <Line id="GrCs_v" timeScale="1ms" quantity="GrCs[0]/v" scale="1 mV" color="#000000"/>
+    </Display>
+    <Display id="conductances" title="Synaptic conductances" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-0.1" ymax="1">
+      <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#0B610B"/>
+      <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/g" scale="1 nS" color="#DF013A"/>
+      <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/g" scale="1 nS" color="#4000FF"/>
+    </Display>
+    <Display id="currents" title="Synaptic currents" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-20" ymax="40">
+      <Line id="iGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/i" scale="1 pA" color="#0B610B"/>
+      <Line id="iAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/i" scale="1 pA" color="#DF013A"/>
+      <Line id="iNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/i" scale="1 pA" color="#4000FF"/>
+    </Display>
+    <Display id="blockFactor" title="Blockage factor" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="0.05" ymax="0.25">
+      <Line id="blockFactor" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/blockFactor" scale="1" color="#4000FF"/>
+    </Display>
+
+  </Simulation>
+
+  <Simulation id="rateIO" length="20 s" step="0.025 ms" target="rateIONetwork">
+    <OutputFile id="of0" fileName="spike_count.dat">
+      <OutputColumn id="sc" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
+      <OutputColumn id="g0" quantity="GrCs[0]/RothmanMFToGrCAMPA0/g"/>
+      <OutputColumn id="g1" quantity="GrCs[0]/RothmanMFToGrCAMPA1/g"/>
+      <OutputColumn id="g2" quantity="GrCs[0]/RothmanMFToGrCAMPA2/g"/>
+      <OutputColumn id="g3" quantity="GrCs[0]/RothmanMFToGrCAMPA3/g"/>
+      <OutputColumn id="g4" quantity="GrCs[0]/RothmanMFToGrCNMDA0/g"/>
+      <OutputColumn id="g5" quantity="GrCs[0]/RothmanMFToGrCNMDA1/g"/>
+      <OutputColumn id="g6" quantity="GrCs[0]/RothmanMFToGrCNMDA2/g"/>
+      <OutputColumn id="g7" quantity="GrCs[0]/RothmanMFToGrCNMDA3/g"/>
+    </OutputFile>
+  </Simulation>
+
+</Lems>
