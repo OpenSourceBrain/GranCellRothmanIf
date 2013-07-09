@@ -313,13 +313,13 @@ part of NeuroML or any standardised XML specification. -->
  <object class="ucl.physiol.neuroconstruct.psics.PsicsSettings"/>
  <object class="ucl.physiol.neuroconstruct.simulation.SimulationParameters">
   <void property="dt">
-   <float>0.025</float>
+   <float>0.01</float>
   </void>
   <void property="duration">
    <float>100.0</float>
   </void>
   <void property="reference">
-   <string>Sim_185</string>
+   <string>Sim_200</string>
   </void>
   <void property="saveCopyGenSimFiles">
    <boolean>true</boolean>

@@ -19,6 +19,7 @@
     <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
+		    T="35 degC"
 		    blockConcentration="1 mM"
 		    deltaBind="0.35"
 		    deltaPerm="0.53"
@@ -100,6 +101,7 @@
 		 synapse in Schwartz2012.">
 
     <Parameter name="z" dimension="none"/>
+    <Parameter name="T" dimension="temperature"/>
     <Parameter name="blockConcentration" dimension="concentration"/>
     <Parameter name="deltaBind" dimension="none"/>
     <Parameter name="deltaPerm" dimension="none"/>
@@ -112,12 +114,11 @@
 	      value="8.3144621 J_per_K_per_mol"/>
 
     <Requirement name="v" dimension="voltage"/>
-    <Requirement name="temperature" dimension="temperature"/>
 
     <Text name="species"/>
 
     <Dynamics>
-      <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * temperature)"/>
+      <DerivedVariable name="theta" dimension="per_voltage" value="(z * faradayConstant) / (idealGasConstant * T)"/>
       <DerivedVariable name="blockFactor" dimension="none" exposure="blockFactor" value="(C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v)) / (C1 * exp(deltaBind * theta * v) + C2 * exp(-deltaPerm * theta * v) + blockConcentration * exp(-deltaBind * theta * v))"/>
     </Dynamics>
   </ComponentType>
