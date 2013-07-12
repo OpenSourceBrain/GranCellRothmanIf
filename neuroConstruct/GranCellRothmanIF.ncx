@@ -12,7 +12,7 @@ part of NeuroML or any standardised XML specification. -->
    <string>Integrate &amp; fire model of cerebellar granule cell, complete with mossy fibre excitatory synapse, as developed by Jason Rothman and Eugenio Piasini. Based on experimental data from Silver Lab.
 
 Notes:
- - the dynamics of the NMDA synaptic mechanism is dependent on the temperature, but due to a limitation in jLEMS the value of the temperature is hardcoded (fixed to 32 degC) in the nml file rather than being read from the simulation configuration.
+ - the dynamics of the NMDA synaptic mechanism is dependent on the temperature, but due to a limitation in jLEMS the value of the temperature is hardcoded (fixed to 35 degC) in the nml file rather than being read from the simulation configuration.
  - neuroConstruct doesn&apos;t yet support exporting to NeuroMLv2 and simulating in jLEMS of spiking inputs, so this kind of simulations will have to be run in NEURON only.</string>
   </void>
   <void property="projectFileVersion">

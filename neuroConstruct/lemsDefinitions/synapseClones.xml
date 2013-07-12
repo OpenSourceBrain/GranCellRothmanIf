@@ -6,10 +6,8 @@
        AMPA+NMDA synapses on a single GrC in and to be abl to measure
        their conductances independently during a simulation. -->
 
-  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpDirectTetraExpSpilloverStpSynapse.xml"/>
-  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/TriExpBlockStpSynapse.xml"/>
-  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/lemsDefinitions/Blocks.xml"/>
-
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+  <Include file="/home/ucbtepi/nC_projects/GranCellRothmanIf/neuroConstruct/cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
 
   <TriExpDirectTetraExpSpilloverStpSynapse id="RothmanMFToGrCAMPA0"
 					   erev="0 mV"
@@ -25,10 +23,10 @@
 					   spilloverTauDecay1="0.4 ms"
 					   spilloverTauDecay2="4.899 ms"
 					   spilloverTauDecay3="43.10 ms">
-    <directStpMechanism type="tsodyksMarkramDepMechanism"
+    <directPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			initReleaseProb="0.1249"
 			tauRec="131 ms" />
-    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+    <spilloverPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			   initReleaseProb="0.2792"
 			   tauRec="14.85 ms" />
     <notes>
@@ -54,10 +52,10 @@
 					   spilloverTauDecay1="0.4 ms"
 					   spilloverTauDecay2="4.899 ms"
 					   spilloverTauDecay3="43.10 ms">
-    <directStpMechanism type="tsodyksMarkramDepMechanism"
+    <directPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			initReleaseProb="0.1249"
 			tauRec="131 ms" />
-    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+    <spilloverPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			   initReleaseProb="0.2792"
 			   tauRec="14.85 ms" />
     <notes>
@@ -83,10 +81,10 @@
 					   spilloverTauDecay1="0.4 ms"
 					   spilloverTauDecay2="4.899 ms"
 					   spilloverTauDecay3="43.10 ms">
-    <directStpMechanism type="tsodyksMarkramDepMechanism"
+    <directPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			initReleaseProb="0.1249"
 			tauRec="131 ms" />
-    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+    <spilloverPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			   initReleaseProb="0.2792"
 			   tauRec="14.85 ms" />
     <notes>
@@ -112,10 +110,10 @@
 					   spilloverTauDecay1="0.4 ms"
 					   spilloverTauDecay2="4.899 ms"
 					   spilloverTauDecay3="43.10 ms">
-    <directStpMechanism type="tsodyksMarkramDepMechanism"
+    <directPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			initReleaseProb="0.1249"
 			tauRec="131 ms" />
-    <spilloverStpMechanism type="tsodyksMarkramDepMechanism"
+    <spilloverPlasticityMechanism type="tsodyksMarkramDepMechanism"
 			   initReleaseProb="0.2792"
 			   tauRec="14.85 ms" />
     <notes>
@@ -134,11 +132,11 @@
 			 directTauRise="0.8647 ms"
 			 directTauDecay1="13.52 ms"
 			 directTauDecay2="121.9 ms">
-    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+    <plasticityMechanism type="tsodyksMarkramDepFacMechanism"
 		  initReleaseProb="0.03220"
 		  tauFac="6.394 ms"
 		  tauRec="236.1 ms" />
-    <blockMechanism type="RothmanBlock"
+    <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
 		    T="308.15 K"
@@ -163,11 +161,11 @@
 			 directTauRise="0.8647 ms"
 			 directTauDecay1="13.52 ms"
 			 directTauDecay2="121.9 ms">
-    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+    <plasticityMechanism type="tsodyksMarkramDepFacMechanism"
 		  initReleaseProb="0.03220"
 		  tauFac="6.394 ms"
 		  tauRec="236.1 ms" />
-    <blockMechanism type="RothmanBlock"
+    <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
 		    T="308.15 K"
@@ -192,11 +190,11 @@
 			 directTauRise="0.8647 ms"
 			 directTauDecay1="13.52 ms"
 			 directTauDecay2="121.9 ms">
-    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+    <plasticityMechanism type="tsodyksMarkramDepFacMechanism"
 		  initReleaseProb="0.03220"
 		  tauFac="6.394 ms"
 		  tauRec="236.1 ms" />
-    <blockMechanism type="RothmanBlock"
+    <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
 		    T="308.15 K"
@@ -221,11 +219,11 @@
 			 directTauRise="0.8647 ms"
 			 directTauDecay1="13.52 ms"
 			 directTauDecay2="121.9 ms">
-    <stpMechanism type="tsodyksMarkramDepFacMechanism"
+    <plasticityMechanism type="tsodyksMarkramDepFacMechanism"
 		  initReleaseProb="0.03220"
 		  tauFac="6.394 ms"
 		  tauRec="236.1 ms" />
-    <blockMechanism type="RothmanBlock"
+    <blockMechanism type="RothmanBlockMechanism"
 		    species="mg"
 		    z="2"
 		    T="308.15 K"
