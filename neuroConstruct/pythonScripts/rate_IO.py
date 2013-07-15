@@ -8,40 +8,38 @@
 import subprocess
 import numpy as np
 from matplotlib import pyplot as plt
+import sys
+sys.path.append('../lemsSimulations/rate_IO')
+
+import LEMS_rate_IO
 
 # total stimulation rate (each of the 4 mossy fibres will spike at 1/4th of this)
-jason_stim_range = np.array([30,60,90,120,150,180,210,240,300,360,420,480,540,600],
-                            dtype=np.float)
-jason_rates_156 = np.array([1.95918 ,9.89796, 30.4286, 51.6735,
-                            87.8163, 121.86, 165.324, 197.594, 258.538,
-                            296.905, 328.778, 351.688, 368.357, 377])
+jason_stim_range = np.arange(60., 660, 60)/4
+jason_rates_156 = np.array([0.0, 0.7755102040816326, 4.55813953488372, 20.65625, 49.46153846153846, 88.9047619047619, 139.2222222222222, 187.6875, 227.64285714285717, 253.7142857142857])
 
 
+result_filename = 'NEURON_firing_rate.dat'
 stim_rate_range = jason_stim_range
 firing_rates_STP = np.zeros(shape=stim_rate_range.shape)
 firing_rates_noSTP = np.zeros(shape=stim_rate_range.shape)
 
-for stp in [True]:
-    if stp:
-        print(" --- STP --- ")
-        sim_config = 'rate_IO_156'
-        output_array = firing_rates_STP
-    else:
-        print(" --- no STP --- ")
-        sim_config = 'rate_IO_noSTP'
-        output_array = firing_rates_noSTP
+sim_config = 'rate_IO'
+output_array = firing_rates_STP
 
-    for k, stim_rate in enumerate(stim_rate_range):
-        proc = subprocess.Popen(['nC.sh', '-python', 'rate_IO_simulate.py', sim_config, str(stim_rate)], stdout=subprocess.PIPE)
-        proc_output = proc.communicate()[0]
-        output_firing_rate = float(proc_output.rpartition('Output firing rate is ')[-1])
-        output_array[k] = output_firing_rate
-        print("in: {0:.1f}Hz  out: {1:.1f}Hz".format(stim_rate, output_firing_rate))
+lems_firing_rates = LEMS_rate_IO.main(plot=False)[0]
+print("LEMS firing rates: {}".format(lems_firing_rates))
+
+for k, stim_rate in enumerate(stim_rate_range):
+    subprocess.call(['nC.sh', '-python', 'rate_IO_simulate.py', sim_config, str(stim_rate)])
+    with open(result_filename, "r") as f:
+        output_firing_rate = float(f.read())
+    output_array[k] = output_firing_rate
+    print("in: {0:.1f}Hz  out: {1:.1f}Hz".format(stim_rate, output_firing_rate))
 
 fig, ax = plt.subplots()
 ax.plot(jason_stim_range, jason_rates_156, marker='o', color='k', label='Rothman 2012, +STD +inh')
-ax.plot(stim_rate_range, firing_rates_STP, marker='s', color='g', label='NeuroMLv2, +STP')
-#ax.plot(stim_rate_range, firing_rates_noSTP, marker='s', color='r', label='NeuroMLv2, -STP')
+ax.plot(stim_rate_range, firing_rates_STP, marker='s', color='g', label='2013, NEURON')
+ax.plot(stim_rate_range, lems_firing_rates, marker='^', color='r', label='2013, jLEMS')
 ax.xaxis.set_ticks_position('bottom')
 ax.yaxis.set_ticks_position('left')
 for loc, spine in ax.spines.items():
