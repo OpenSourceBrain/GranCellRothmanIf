@@ -55,9 +55,10 @@
     </Dynamics>
   </ComponentType>
 
-  <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
-  <Include file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/>
-  <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/>
+  <!-- <Include file="../../cellMechanisms/RothmanMFToGrCAMPA/RothmanMFToGrCAMPA.nml"/>
+  <Include
+      file="../../cellMechanisms/RothmanMFToGrCNMDA/RothmanMFToGrCNMDA.nml"/> -->
+  <!-- <Include file="../../cellMechanisms/WardGoCToGrCGABA/WardGoCToGrCGABA.nml"/> -->
   <Include file="../../cellMechanisms/IaF_GrC/IaF_GrC.nml"/>
   <Include file="../../lemsDefinitions/synapseClones.xml"/>
 
@@ -73,8 +74,8 @@
 
   <network id="rateIONetwork">
     <population id="mossySpikerPop" component="mossySpiker" size="4"/>
-    <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>
-    <population id="GrCs" component="IaF_GrC_156" size="1"/>
+<!--    <population id="golgiSpikerPop" component="golgiSpiker" size="4"/>-->
+    <population id="GrCs" component="IaF_GrC" size="1"/>
     <population id="secondLayerGrCs" component="IaF_GrC" size="1"/>
 
     <!-- mossy to granule AMPA -->
@@ -90,10 +91,10 @@
     <synapticConnection from="mossySpikerPop[3]" to="GrCs[0]" synapse="RothmanMFToGrCNMDA3" destination="synapses"/>
 
     <!-- golgi to granule -->
-    <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
-    <synapticConnection from="golgiSpikerPop[1]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
-    <synapticConnection from="golgiSpikerPop[2]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
-    <synapticConnection from="golgiSpikerPop[3]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/>
+    <!-- <synapticConnection from="golgiSpikerPop[0]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/> -->
+    <!-- <synapticConnection from="golgiSpikerPop[1]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/> -->
+    <!-- <synapticConnection from="golgiSpikerPop[2]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/> -->
+    <!-- <synapticConnection from="golgiSpikerPop[3]" to="GrCs[0]" synapse="WardGoCToGrCGABA" destination="synapses"/> -->
 
     <!-- granule to spike recorder -->
     <synapticConnection from="GrCs[0]" to="secondLayerGrCs[0]" synapse="spikeRecorder" destination="synapses"/>
@@ -105,12 +106,12 @@
       <Line id="GrCs_v" timeScale="1ms" quantity="GrCs[0]/v" scale="1 mV" color="#000000"/>
     </Display>
     <Display id="conductances" title="Synaptic conductances" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-0.1" ymax="1">
-      <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#0B610B"/>
+      <!-- <Line id="gGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/g" scale="1 nS" color="#0B610B"/> -->
       <Line id="gAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/g" scale="1 nS" color="#DF013A"/>
       <Line id="gNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/g" scale="1 nS" color="#4000FF"/>
     </Display>
     <Display id="currents" title="Synaptic currents" timeScale="1ms" xmin="-10.0" xmax="520.0" ymin="-20" ymax="40">
-      <Line id="iGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/i" scale="1 pA" color="#0B610B"/>
+      <!-- <Line id="iGABA" timeScale="1ms" quantity="GrCs[0]/WardGoCToGrCGABA/i" scale="1 pA" color="#0B610B"/> -->
       <Line id="iAMPA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCAMPA/i" scale="1 pA" color="#DF013A"/>
       <Line id="iNMDA" timeScale="1ms" quantity="GrCs[0]/RothmanMFToGrCNMDA/i" scale="1 pA" color="#4000FF"/>
     </Display>
@@ -121,16 +122,16 @@
   </Simulation>
 
   <Simulation id="rateIO" length="20 s" step="0.025 ms" target="rateIONetwork">
-    <OutputFile id="of0" fileName="spike_count.dat">
+    <OutputFile id="of0" fileName="LEMS_spike_count.dat">
       <OutputColumn id="sc" quantity="secondLayerGrCs[0]/spikeRecorder/spikeCount"/>
-      <OutputColumn id="g0" quantity="GrCs[0]/RothmanMFToGrCAMPA0/g"/>
+      <!--<OutputColumn id="g0" quantity="GrCs[0]/RothmanMFToGrCAMPA0/g"/>
       <OutputColumn id="g1" quantity="GrCs[0]/RothmanMFToGrCAMPA1/g"/>
       <OutputColumn id="g2" quantity="GrCs[0]/RothmanMFToGrCAMPA2/g"/>
       <OutputColumn id="g3" quantity="GrCs[0]/RothmanMFToGrCAMPA3/g"/>
       <OutputColumn id="g4" quantity="GrCs[0]/RothmanMFToGrCNMDA0/g"/>
       <OutputColumn id="g5" quantity="GrCs[0]/RothmanMFToGrCNMDA1/g"/>
       <OutputColumn id="g6" quantity="GrCs[0]/RothmanMFToGrCNMDA2/g"/>
-      <OutputColumn id="g7" quantity="GrCs[0]/RothmanMFToGrCNMDA3/g"/>
+      <OutputColumn id="g7" quantity="GrCs[0]/RothmanMFToGrCNMDA3/g"/>-->
     </OutputFile>
   </Simulation>
 

@@ -9,7 +9,11 @@ part of NeuroML or any standardised XML specification. -->
 
  <object class="ucl.physiol.neuroconstruct.project.BasicProjectInfo">
   <void property="projectDescription">
-   <string>Integrate &amp; fire model of cerebellar granule cell as developed by Jason Rothman. Based on experimental data from Silver Lab.</string>
+   <string>Integrate &amp; fire model of cerebellar granule cell, complete with mossy fibre excitatory synapse, as developed by Jason Rothman and Eugenio Piasini. Based on experimental data from Silver Lab.
+
+Notes:
+ - the dynamics of the NMDA synaptic mechanism is dependent on the temperature, but due to a limitation in jLEMS the value of the temperature is hardcoded (fixed to 35 degC) in the nml file rather than being read from the simulation configuration.
+ - neuroConstruct doesn&apos;t yet support exporting to NeuroMLv2 and simulating in jLEMS of spiking inputs, so this kind of simulations will have to be run in NEURON only.</string>
   </void>
   <void property="projectFileVersion">
    <string>neuroConstruct v1.7.0</string>
@@ -201,6 +205,9 @@ part of NeuroML or any standardised XML specification. -->
      </void>
      <void property="minValue">
       <float>-90.0</float>
+     </void>
+     <void property="plotAndOrSave">
+      <string>Plot and save</string>
      </void>
      <void property="plotReference">
       <string>GrCs_v</string>
@@ -406,6 +413,34 @@ part of NeuroML or any standardised XML specification. -->
      </void>
     </object>
    </void>
+   <void method="add">
+    <object class="ucl.physiol.neuroconstruct.project.SimPlot">
+     <void property="cellGroup">
+      <string>GrCs</string>
+     </void>
+     <void property="cellNumber">
+      <string>*</string>
+     </void>
+     <void property="graphWindow">
+      <string>GraphWin_6</string>
+     </void>
+     <void property="maxValue">
+      <float>1.0</float>
+     </void>
+     <void property="minValue">
+      <float>0.0</float>
+     </void>
+     <void property="plotReference">
+      <string>AMPA_directPlasticityU</string>
+     </void>
+     <void property="segmentId">
+      <string>0</string>
+     </void>
+     <void property="valuePlotted">
+      <string>SYN:dummies_to_GrCs_AMPA:RothmanMFToGrCAMPA:directPlasticityMechanism_U</string>
+     </void>
+    </object>
+   </void>
   </void>
  </object>
  <object class="ucl.physiol.neuroconstruct.project.ProjectProperties">
@@ -456,7 +491,7 @@ part of NeuroML or any standardised XML specification. -->
    <float>100.0</float>
   </void>
   <void property="reference">
-   <string>Sim_236</string>
+   <string>Sim_249</string>
   </void>
   <void property="saveCopyGenSimFiles">
    <boolean>true</boolean>
@@ -504,9 +539,6 @@ part of NeuroML or any standardised XML specification. -->
       <string>GrCs</string>
      </void>
      <void property="dur">
-      <void property="fixedNum">
-       <float>30.0</float>
-      </void>
       <void property="numberType">
        <int>11</int>
       </void>
@@ -527,6 +559,9 @@ part of NeuroML or any standardised XML specification. -->
       <string>GrCs_dummy</string>
      </void>
      <void property="dur">
+      <void property="fixedNum">
+       <float>300.0</float>
+      </void>
       <void property="numberType">
        <int>11</int>
       </void>
@@ -684,7 +719,7 @@ part of NeuroML or any standardised XML specification. -->
       </void>
      </void>
      <void property="simDuration">
-      <float>100.0</float>
+      <float>400.0</float>
      </void>
     </object>
    </void>
@@ -723,6 +758,9 @@ part of NeuroML or any standardised XML specification. -->
       </void>
       <void method="add">
        <string>AMPA_directPlasticityFactor</string>
+      </void>
+      <void method="add">
+       <string>AMPA_directPlasticityU</string>
       </void>
       <void method="add">
        <string>AMPA_spilloverPlasticityFactor</string>
